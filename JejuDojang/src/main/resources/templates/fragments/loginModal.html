@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="loginModal">
+	<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">
+				
+					<div class="container-fluid">
+						<div class="row">
+							<div class="btn-area col-xs-12">
+								<h3 class="login-title text-center">제주도장깨기</h3>
+	
+								<div class="btn btn-naver">
+									<a href="/oauth2/authorization/naver" role="button">
+										<img class="img-responsive" th:src="@{/images/icon/btnG_완성형.png}">
+									</a>
+								</div>
+	
+								<div class="btn btn-google">
+									<a href="/oauth2/authorization/google" role="button">
+										<img class="img-responsive" th:src="@{/images/icon/btn_google_blue.png}">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{fragments/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>스타일 선택</title>
+</head>
+<th:block layout:fragment="style1">
+<!-- <link rel="stylesheet" th:href="@{/css/tagCheckbox.css}"> -->
+<style>
+  .tag {
+  	width: 23%;
+  	padding: 0;
+  	margin: 1%;
+  }
+  span.button.primary {
+  	min-width: 1em;
+  	width: 100%;
+  }
+  
+  .tag-box {
+  	margin-bottom: 5%;
+  }
+  
+input[type='checkbox'] {
+	display:none;
+}
+input:checked + span.button.primary {
+   background: #F79F57;
+   border-color: #F79F57;
+   color:#fff;
+}
+</style>
+</th:block>
+<body>
+
+	<div layout:fragment="content">
+	
+		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
+		<p class="text-middle">
+			<p class="animate__animated animate__fadeIn text-middle">여행 스타일을 선택해주세요!</p>
+			<p class="animate__animated animate__fadeIn text-middle">선택하신 테마에 맞는 장소를 추천해드릴게요.</p>
+		</p>
+					
+		<section class="wrapper style4 container">
+		
+			<!-- Content -->
+			<div class="content">
+			<div class="panel-body>">
+				<!-- 여기에 내용 작성하세용-->
+				<div class="form-area text-center">
+					
+					
+					<form th:action="@{/itinerary/myfavorite(groupid=${groupid})}" method="post">
+						
+						<div class="tag-box text-center">
+							<label class="tag" th:each="tag:${tags}">
+								<input type="checkbox" name="tag" th:value="${tag}">
+								<span th:text="${tag}" class="btn button primary"></span>
+							</label>
+						</div>
+						
+						<div class="row">
+							<div class="col-xs-12">
+								<input id="submitBtn" type="submit" class="btn btn-default btn-lg animate__animated animate__fadeIn" value="다음">
+							</div>
+						</div>
+		
+					</form>
+					
+				</div>
+			</div>
+			</div>
+		</section>
+		
+	</div>	
+
+
+	<th:block layout:fragment="script">
+		<!-- 여기에 자바스크립트 쓰시오-->
+		<script>
+			$(".tag").hide();
+			$("#submitBtn").hide();
+			
+			setTimeout(function() {
+				$(".tag").addClass("animate__animated animate__fadeInUp");
+				$(".tag").show();
+			}, 300);
+			
+			setTimeout(function() {
+				$("#submitBtn").addClass("animate__animated animate__fadeIn");
+				$("#submitBtn").show();
+			}, 800);
+			
+		</script>
+	</th:block>
+	
+</body>
+</html>
