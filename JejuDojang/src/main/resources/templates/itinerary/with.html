@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{fragments/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>여행 일정 만들기</title>
+<th:block layout:fragment="script_head">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</th:block>
+<th:block layout:fragment="style1">
+<style>
+.find-friends-area {
+	display: flex;
+	flex-wrap: nowrap;
+}
+.search-icon {
+	flex: 1 1 0;
+	padding: 3%;
+	width: 7% !important;
+}
+#find-friends {
+	flex: 8 1 0;
+}
+.all-user {
+	width: 100%;
+}
+.user-picture {
+	width: 15% !important;
+	height: auto;
+	margin: 1%;
+	float: left;
+}
+.user-id, .user-id p{
+	margin: 0;
+	padding-left: 10%;
+}
+.user-id p:first-of-type {
+	font-size: 1.1em;
+	font-weight: 500;
+}
+.dropdown-item {
+	overflow: hidden;
+}
+.dropdown-item:hover {
+	background-color: #eee;
+}
+.selected-friends {
+	margin-top: 2%;
+}
+.selected-friend-one {
+	position: relative;
+	display: inline-block;
+	margin: 1%;
+	width: 17%;
+	line-height: 0.8em;
+}
+.selected-user-picture, .selected-user-delete {
+	padding: 5%;
+	width: 100%;
+}
+.selected-user-delete {
+	position: absolute;
+	opacity: 0;
+}
+.selected-user-delete:hover {
+	opacity: 0.3;
+}
+.selected-friend-one span{
+	font-size: 0.8em;
+}
+
+</style>
+</th:block>
+</head>
+<body>
+
+<div layout:fragment="content">
+	
+		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
+		<p class="text-middle inform">페이지 설명 넣기</p>
+					
+		<section class="wrapper style4 container">
+		
+			<!-- Content -->
+			<div class="content">
+			<div class="panel-body>">
+				<!-- 여기에 내용 작성하세용-->
+				<form id="frm" th:action="@{/itinerary/makegroup}">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="pull-right">
+							<!-- <label for="itineraryName">여행 기간</label> -->
+							<input type="hidden" id="itineraryDate" name="itineraryDate" required="required"><br>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="itineraryName">여행 이름</label>
+						<input type="text" id="itineraryName" name="itineraryName" required="required"><br>
+						<div class="friends-area">
+							<label>함께할 친구</label><br>
+							<div class="dropdown">
+								<div class="find-friends-area dropdown-toggle" data-toggle="dropdown">
+									<img class="search-icon" th:src="@{images/icon/search.png}">
+									<input type="text" id="find-friends" placeholder="이메일로 검색하기">
+								</div>
+								
+								<div class="empty-area"></div>
+								<ul class="all-user dropdown-menu"></ul>								
+								
+							</div>
+							<div class="selected-friends"></div>
+							<input type="hidden" name="friendlist" id="friendlist">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<input id="btn-sub" type="submit" class="btn btn-default" value="다음">
+					</div>
+				</div>
+			</form>
+			<input type="hidden" id="userinfo" th:value="${userinfo}">
+			<input type="hidden" id="loginModal" data-toggle="modal" data-target="#myModal">
+			</div>
+			</div>
+		</section>
+		
+	</div>	
+
+
+	<th:block layout:fragment="script">
+		<script>
+			$("#itineraryDate").flatpickr({
+				dateFormat: "Y-m-d",
+				minDate: "today",
+				inline: true,
+				mode: "range"
+			});
+			$("#itineraryDate").attr("type", "hidden");
+			
+			var user = JSON.parse($("#userinfo").val());
+			console.log(user);
+			if(user != null && user.role == "USER"){
+				$(".inform").text("일정 불러오기: 마이페이지 > 일정")
+			}else{
+				$(".inform").text("일정을 저장하려면 로그인하세요!")
+				$("#find-friends").click(function(){
+					$("#loginModal").click();
+				});
+			}
+			
+			var findFriend = $("#find-friends");
+			findFriend.keyup(function() {
+				$(".all-user").children().remove();
+				var keyword = findFriend.val();
+				
+				if(keyword != ""){
+					$.getJSON("/itinerary/findFriends/" + keyword, function(responseData){
+						if(responseData == ""){
+							$div = $("<p>검색 결과가 없습니다.</p>");
+							$(".all-user").append($div);
+						}
+						console.log(responseData);
+						$.each(responseData, function(i, elt) {
+							//if(elt.email == user.email) return true;	// continue
+							
+							var str = "<li class='dropdown-item'>";
+							if(elt.picture == null) {
+								elt.picture = "/images/icon/search.png";
+							}
+							str += "<img class='user-picture img-rounded' src='" + elt.picture + "'>";
+							str += "<div class='user-id'>"
+							str += "<p>" + elt.name + "</p>";
+							str += "<p>" + elt.email + "</p>";
+							str += "<div>"
+							str += "</li>";
+							$div = $(str);
+							$div.click(function(){
+								selectFriend(elt);
+							});
+							$(".all-user").append($div);
+						})
+						
+					});
+				}
+			});
+			
+			var friendArr = [];
+			
+			function selectFriend(elt){
+				$("#find-friends").val("");
+				var deleteIcon = "/images/icon/x-mark.png";
+				
+				friendArr.push(elt.email);
+				$("#friendlist").val(friendArr);
+				if(elt.picture == null) {
+					elt.picture = "/images/icon/search.png";
+				}
+				var newFriend = "<div class='selected-friend-one text-center'>";
+				newFriend += "<img class='selected-user-delete img-circle' src='" + deleteIcon + "'>";
+				newFriend += "<img class='selected-user-picture img-circle' src='" + elt.picture + "'>";
+				newFriend += "<span>" + elt.name + "</span>";
+				newFriend += "</div>";
+				$newFriend = $(newFriend);
+				
+				$(".selected-friends").append($newFriend);
+				
+				$newFriend.click(function(){
+					deleteFriend(elt.email, $(this));
+				});
+			}
+			
+			function deleteFriend(email, friendItem){
+				friendItem.remove();
+				
+				var existEmailIndex = friendArr.indexOf(email);
+				if(existEmailIndex != -1){
+					friendArr.splice(existEmailIndex, 1);
+				}
+			}
+			
+		</script>
+	</th:block>
+
+</body>
+</html>
