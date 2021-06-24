@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<title>제주도장깨기</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!-- 부트스트랩 -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<noscript><link rel="stylesheet" th:href="@{/css/noscript.css}" /></noscript>
+	</head>
+	<body class="index is-preload">
+		<div id="page-wrapper">
+		<div>
+					<div id="jejuVideo">
+	     				<video width="1530px;" muted autoplay loop >
+	       					 <source th:src="@{/images/jeju.mp4}" type="video/mp4">
+	     				</video>
+     				</div>
+			<!-- Header -->
+				<header id="header" class="alt">
+					<h1 id="logo"><a href="index">Jeju <span>DoJang</span></a></h1>
+					<nav id="nav">
+						<ul>
+							<li class="current"><a href="index">HOME</a></li>
+							<li class="submenu">
+								<a href="#">menu</a>
+								<ul>
+									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
+									<li><a href="#">MyPage</a></li>
+									<li class="submenu">
+										<a href="#">게시판</a>
+										<ul>
+											<li><a href="../boards/list">번개 만남</a></li>
+											<li><a href="#">일정 공유</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<span th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}">
+									<a href="/logout" class="button primary" id="button-board">Log Out</a>
+								</span>
+								<span th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}">
+									<a data-toggle="modal" data-target="#myModal" class="button primary" id="button-board">Log In</a>
+								</span>
+							</li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Banner -->
+			
+				<section id="banner">
+				
+					<div class="inner">
+						<header>
+							<img alt="제주도장깨기" src="/images/index_제주도장깨기.png">
+							<!-- <h2>제주도장깨기</h2> -->
+							
+						</header>
+							<p>누구나 가는 뻔한 코스는 그만!</p>
+							<p>원하는 컨셉에 맞는 여행지를 만날 수 있어요.</p>
+							<p>나만의 스타일로 추억을 만들어 보세요.</p>
+							
+						<footer>
+							<ul class="buttons stacked">
+								<li><a href="#main" class="button fit scrolly">일정 짜기</a></li>
+								<li><a href="#major" class="button fit scrolly">번개 만남</a></li>
+							</ul>
+						</footer>
+					</div>
+
+				</section>
+			</div>
+			<!-- 일정짜기 버튼 누르면 여기로 이동 -->
+				<article id="main">
+
+					<header class="special container">
+						<img alt="제주도장깨기" src="/images/일정짜기.png">
+						<p>제주도로 여행을 떠나시나요?
+						<br />
+						여행 일정 정리는 물론, 장소 추천까지 한 번에 받아보세요!
+						</p>
+						<a th:href="@{/itinerary}">&gt&gt 일정 짜러 가기</a>
+					</header>
+
+					<!-- 미리보기 화면 넣기 -->
+						<section class="wrapper style2 container special-alt">
+							<div class="row gtr-50">
+								<div class="col-8 col-12-narrower">
+
+									<header>
+										<h2>Behold the <strong>icons</strong> that visualize what you’re all about. or just take up space. your call bro.</h2>
+									</header>
+									<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu comteger ut fermentum lorem. Lorem ipsum dolor sit amet. Sed tristique purus vitae volutpat ultrices. eu elit eget commodo. Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo.</p>
+									<footer>
+										<ul class="buttons">
+											<li><a href="#" class="button">Find Out More</a></li>
+										</ul>
+									</footer>
+
+								</div>
+								<div class="col-4 col-12-narrower imp-narrower">
+
+									<ul class="featured-icons">
+										<li><span class="icon fa-clock"><span class="label">Feature 1</span></span></li>
+										<li><span class="icon solid fa-volume-up"><span class="label">Feature 2</span></span></li>
+										<li><span class="icon solid fa-laptop"><span class="label">Feature 3</span></span></li>
+										<li><span class="icon solid fa-inbox"><span class="label">Feature 4</span></span></li>
+										<li><span class="icon solid fa-lock"><span class="label">Feature 5</span></span></li>
+										<li><span class="icon solid fa-cog"><span class="label">Feature 6</span></span></li>
+									</ul>
+
+								</div>
+							</div>
+						</section>
+
+					<!-- Two -->
+						<section class="wrapper style1 container special">
+							<div class="row">
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<span class="icon solid featured fa-check"></span>
+										<header>
+											<h3>This is Something</h3>
+										</header>
+										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
+									</section>
+
+								</div>
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<span class="icon solid featured fa-check"></span>
+										<header>
+											<h3>Also Something</h3>
+										</header>
+										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
+									</section>
+
+								</div>
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<span class="icon solid featured fa-check"></span>
+										<header>
+											<h3>Probably Something</h3>
+										</header>
+										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
+									</section>
+
+								</div>
+							</div>
+						</section>
+
+					<!-- 번개만남 -->
+						<section id="major" class="wrapper style3 container special">
+
+							<header class="major" >
+								<img alt="제주도장깨기" src="/images/번개만남.png">
+								<p>새로운 인연과 멋진 추억을 만들어보세요!
+								</p>
+								<a href="../boards/list">&gt&gt 친구 만들러 가기</a>
+							</header>
+							<div>
+							<a style="border: none;" href="../boards/list"><img alt="번개만남 사진" src="/images/번개만남사진3.png"></a>
+							</div>
+							
+					
+
+						
+
+						</section>
+
+				</article>
+				
+			<!-- login modal -->
+			<div th:insert="~{fragments/loginModal::loginModal}"></div>
+
+			<!-- Footer -->
+	<div th:insert="~{fragments/footer::footer}"></div>
+
+
+		</div>
+
+		<!-- Scripts -->
+			<script th:src="@{/js/jquery.min.js}"></script>
+			<script th:src="@{/js/jquery.dropotron.min.js}"></script>
+			<script th:src="@{/js/jquery.scrolly.min.js}"></script>
+			<script th:src="@{/js/jquery.scrollex.min.js}"></script>
+			<script th:src="@{/js/browser.min.js}"></script>
+			<script th:src="@{/js/breakpoints.min.js}"></script>
+			<script th:src="@{/js/util.js}"></script>
+			<script th:src="@{/js/main.js}"></script>
+
+	</body>
+</html>
