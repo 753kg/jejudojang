@@ -1,5 +1,21 @@
 @charset "UTF-8";
 
+#myModal {
+	top: 10%;
+}
+button.close {
+	width: 100%;
+}
+.modal-header, .modal-footer {
+   	border: none;
+}
+#modal-logo {
+	font-size: 1.2em;
+}
+#modal-logo span{
+	font-family: 'GmarketSansBold';
+}
+/*
 .btn-area {
 	margin-top: 10%;
 	width: 300px;
@@ -42,3 +58,4 @@
 	width: 100%;
 	height: 100%;
 }
+*/
