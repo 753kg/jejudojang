@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+
+</style>
 </head>
 <body>
 <div th:fragment="loginModal">
@@ -11,36 +14,27 @@
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
+					<button type="button" class="close  text-right" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
 				</div>
 				<div class="modal-body">
-				
-					<div class="container-fluid">
-						<div class="row">
-							<div class="btn-area col-xs-12">
-								<h3 class="login-title text-center">제주도장깨기</h3>
+					<h1 id="modal-logo" class="text-center"><a href="index"><span>Jeju</span> DoJang</a></h1>
 	
-								<div class="btn btn-naver">
-									<a href="/oauth2/authorization/naver" role="button">
-										<img class="img-responsive" th:src="@{/images/icon/btnG_완성형.png}">
-									</a>
-								</div>
-	
-								<div class="btn btn-google">
-									<a href="/oauth2/authorization/google" role="button">
-										<img class="img-responsive" th:src="@{/images/icon/btn_google_blue.png}">
-									</a>
-								</div>
-							</div>
-						</div>
+					<div class="btn btn-naver">
+						<a href="/oauth2/authorization/naver" role="button">
+							<img class="img-responsive" th:src="@{/images/icon/btnG_완성형.png}">
+						</a>
+					</div>
+
+					<div class="btn btn-google">
+						<a href="/oauth2/authorization/google" role="button">
+							<img class="img-responsive" th:src="@{/images/icon/btn_google_blue.png}">
+						</a>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>

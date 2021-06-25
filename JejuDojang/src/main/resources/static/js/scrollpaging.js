@@ -7,6 +7,8 @@ msg += "<img src='/images/icon/circles-menu-1.gif' class='loading-icon'/>";
 msg += "</div>";
 $msg = $(msg);
 
+var $lastmsg = $("<p>마지막 페이지입니다.</p>");
+
 var blog_display_data = 5;
 var blog_last_page, blog_query, blog_current_page;
 
