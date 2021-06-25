@@ -1,6 +1,7 @@
 package com.JejuDojang.service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +61,9 @@ public class GroupService {
 	}
 	
 	public long findGroupDays(String group_id) {
-		System.out.println("service id : "+group_id);
+		
 		GroupsVO groups = groupRepo.selectByGroupID(group_id);
-		System.out.println("groups : "+groups);
+		
 		long diff = groups.getEnd_day().getTime() - groups.getStart_day().getTime();
 
 		TimeUnit time = TimeUnit.DAYS;
@@ -70,6 +71,11 @@ public class GroupService {
 
 		return diffrence + 1;
 
+	}
+	
+	public List<GroupsVO> selectGroupsbyemail(String email){
+		System.out.println("service email : "+email);
+		return groupRepo.selectGroupsbyemail(email);
 	}
 
 }
