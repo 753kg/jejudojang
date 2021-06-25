@@ -9,41 +9,90 @@
 
 <th:block layout:fragment="style1">
 <style type="text/css">
+#likesBox{
+height:600px;
+position: fixed;
+left:100px;
+top:500px;
+padding: 0 20px 50px 20px;
+background-color: #3F7194;
+overflow:scroll;
+width:300px;
+ }
+#title-font{
+font-size:40px; font-family: 'GmarketSansBold'; color: white;
+margin-top: 50px;
+text-align: center;
+}
+#span-font{
+font-family: 'GmarketSansBold';
+}
+#day-font{
+font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
+margin-top: 50px;
+text-align: center;
 
+}
+#double-font{
+font-size:25px; font-family: 'GmarketSansBold';  color: white;
+text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+text-align: center;
+line-height: 100px;
+}
+.place-picture{
+width:100%; height:100px;
+margin: 20px 0 20px 0;
+}
+#save-button{
+height:70px;
+position: fixed;
+left:100px;
+top:400px;
+font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
+    min-width: 300px;
+    padding: 0;
+    line-height: 70px;
+    width:300px;
+}
 </style>
 </head>
+
 <body>
 <div layout:fragment="content">
 	
 		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
-		<p class="text-middle">원하는대로 일정을 짜보세요</p>
+		<p class="text-middle">선택한 장소를 드래그해서 원하는 날짜로 옮겨보세요.</p>
 					
 		<section class="wrapper style4 container">
 		
 			<!-- Content -->
 			<div class="panel-body>">
 				<!-- 여기에 내용 작성하세용-->
-				<div ty></div>
+				<div></div>
 				<div class="row" >
-					<div class="col-xs-2" id="likesBox" ondrop="drop(event)" ondragover="allowDrop(event)" style="border:solid 1px black">
+				
+				 <button onclick="save()" id="save-button">일정 저장</button>
+					<div id="likesBox" ondrop="drop(event)" ondragover="allowDrop(event)" >
+						 <p id="title-font">선택된 장소</p>
 						<div th:each="itinerary, i : ${itinerary}" >
-							<div th:id="'tour' + ${i}" draggable="true" ondragstart="drag(event)" th:style="'border:solid 1px black; background-image: url(' + ${itinerary.firstimage} + '); width:100%'">
-								<div th:text="${itinerary.title}">[[${itinerary.title}]]</div>
-								<!-- <img th:src="${itinerary.firstimage}"> -->
-							</div>
-							
-						</div>
-					</div>
-					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">				
-						<div  th:order="${num}+'.'" th:id="'day'+${num}" class="col-xs-5" style="border:solid 1px black; width:200px; height:200px;">
-							<div th:each="count:${#numbers.sequence(1,9)}">
-								<div th:order="${count}" th:id="'plan'+${count}" ondrop="drop(event)" ondragover="allowDrop(event)" style="border:solid 1px black; height: 20px;"></div>
+							<div  th:aa="${itinerary.contentid}" th:id="${'tour' + i.index}"  draggable="true" ondragstart="drag(event)" th:class="place-picture" th:style="'background-image: url(' + ${itinerary.firstimage} + '); '">
+								<div th:text="${itinerary.title}" id="double-font">[[${itinerary.title}]]</div>
 							</div>
 						</div>
 					</div>
-					<button onclick="save()">일정 저장</button>
+					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
+                  <p id="day-font">day<span id="span-font">[[${num}]]</span></p>
+                  <div  th:order="${num}+'.'" th:id="'day'+${num}" class="col-xs-5" style="width:370px; height:1200px;">
+                     <div th:each="count:${#numbers.sequence(1,9)}">
+                        <div th:order="${count}" th:id="'plan'+${count}" ondrop="drop(event)" ondragover="allowDrop(event)" style="border:solid 1px lightgray; height: 140px; width:370px;"></div>
+
+							</div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
+			
 		</section>
 </div>
 		
@@ -68,20 +117,25 @@
 		}
 		
 		function save(){
-			$("div.daycontainer > div").each(function(index, item){
+			$("div.daycontainer > div > div").each(function(index, item){
+				
+				console.log($(item).children("div").children("div.place-picture").attr("aa"));
 				console.log("index : "+index);
 				console.log("item : "+item.id);
 				console.log("***********");
 				for(var j=1;j<10;j++){
-					var img = $(item).find("#plan"+j).find("img");
-					if($(img).length==1){
+					var schedule = $(item).find("#plan"+j).find("div");
+					console.log($("#content"+index).attr("aa"));
+					console.log("schedule : "+schedule.length);
+					if($(schedule).length==2){
 						var temp = index+1+(j*0.1);
-						console.log(temp);
+						console.log("temp : "+temp);
 						$.ajax({
-							url:'/',
+							url:'/api/updateschedule',
 							data:{
 								"schedule":temp,
-								"content_id":"????"
+								"contentid":$(item).children("div").children("div.place-picture").attr("aa"),
+								"group_id":[[${groupid}]]
 							},
 							success:function(data){
 								alert(data==1?'업데이트 성공':'업데이트 실패');
@@ -92,17 +146,12 @@
 				}
 			});
 			location.href = "../../retrieveMarker?groupid=" + [[${groupid}]];
-			/*)
-			for(var i=1; i <= [[${days}]] ;i++){
-				for(var j=1;j<10;j++){
-					$("div.daycontainer #")
-					document.getElementById("day"+i).getElementById("plan"+j).
-				}
-			}*/
+			
 		}
 		</script>
 	</th:block>
-
+	
+	
 
 
 

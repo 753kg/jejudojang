@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{fragments/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+<th:block layout:fragment="style1">
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+	
+		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
+		<p class="text-middle">내 여행계획</p>
+					
+		<section class="wrapper style4 container">
+		
+			<!-- Content -->
+			<div class="panel-body>">
+				<!-- 여기에 내용 작성하세용-->
+				<div ></div>
+				<div class="row" >
+					<div class="col-xs-5" id="likesBox" >
+						<div th:each="groups, i : ${groups}" style="border : solid 1px black">
+							<div onclick="#">
+								<p>[[${groups.group_name}]]</p>
+								<p>여행 출발일 : [[${groups.start_day}]]</p>
+								<p>여행 마지막일 : [[${groups.end_day}]]</p>
+							</div>
+							
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+		</section>
+</div>
+		
+		
+
+
+
+	<th:block layout:fragment="script">
+	<script>
+		
+		</script>
+	</th:block>
+	
+	
+
+
+
+</body>
+
+</html>
+

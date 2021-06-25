@@ -24,7 +24,7 @@ import lombok.extern.java.Log;
 import net.bytebuddy.build.HashCodeAndEqualsPlugin.ValueHandling.Sort;
 
 @Controller
-@RequestMapping("/boards/")
+@RequestMapping("/boards/") 
 @Log
 public class BoardController {
 

@@ -18,8 +18,8 @@ public class ItineraryService {
 		return repo.selectItineraryAfterMap(group_id);
 	}
 	
-	public int updateSchedule(Double schedule,Long itinerary_id) {
-		return repo.updateSchedule(schedule, itinerary_id);
+	public void updateSchedule(Double schedule,Long contentid,String group_id) {
+		 repo.updateSchedule(schedule, contentid, group_id);
 	}
 	
 }

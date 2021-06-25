@@ -15,8 +15,8 @@
 	<body class="index is-preload">
 		<div id="page-wrapper">
 		<div>
-					<div id="jejuVideo">
-	     				<video width="1530px;" muted autoplay loop >
+					<div id="jejuVideo" style="width: 100%;">
+                    <video width="100%;" muted autoplay loop >
 	       					 <source th:src="@{/images/jeju.mp4}" type="video/mp4">
 	     				</video>
      				</div>
@@ -30,7 +30,7 @@
 								<a href="#">menu</a>
 								<ul>
 									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
-									<li><a href="#">MyPage</a></li>
+									<li><a href="/api/mypage">MyPage</a></li>
 									<li class="submenu">
 										<a href="#">게시판</a>
 										<ul>
