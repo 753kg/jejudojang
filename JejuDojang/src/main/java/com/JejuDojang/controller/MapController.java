@@ -18,8 +18,6 @@ import com.JejuDojang.persistence.ItineraryRepository;
 import com.JejuDojang.persistence.TagRepository;
 import com.JejuDojang.persistence.TourLikeRepository;
 
-import jdk.internal.org.jline.utils.Log;
-
 @Controller
 public class MapController {
 	
@@ -62,6 +60,13 @@ public class MapController {
 		GroupsVO g = groupRepo.findById(group_id).get();
 		return tourLikesRepo.selectMapInfo(g);
 	}
+	//최종 일정 마커 표 시 
+		@GetMapping("/itinerary/retrieveMarker/{group_id}")
+		@ResponseBody
+		public List<JejuTourListVO> retrieveMarker(@PathVariable String group_id){
+			System.out.println("group_id :"+group_id);
+			return itRepo.selectedMarker(group_id);
+		}
 	
 	//고른 장소 DB에 insert시키기 
 	@GetMapping("/insertPlaces/{group_id}")
@@ -92,13 +97,7 @@ public class MapController {
 		return ret;
 	}
 	
-	//최종 일정 마커 표 시 
-	@GetMapping("/itinerary/retrieveMarker/{group_id}")
-	@ResponseBody
-	public List<JejuTourListVO> retrieveMarker(@PathVariable String group_id){
-		System.out.println("group_id :"+group_id);
-		return itRepo.selectedMarker(group_id);
-	}
+	
 	
 /*	
  * 태그 이미지 바꾸기..

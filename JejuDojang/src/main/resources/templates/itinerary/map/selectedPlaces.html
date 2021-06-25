@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- 부트스트랩 -->
@@ -11,18 +11,21 @@
 </head>
 <style>
 ul {
-	list-style: none;
+   list-style: none;
 }
 
 #button {
-	width: 20px;
-	height: 5px;
+   width: 20px;
+   height: 5px;
 }
 
 #delete-button {
-	padding: 5px 5px;
+   padding: 5px 5px;
 }
-
+#main img{
+width:20px;
+height:20px;
+}
 </style>
 
 
@@ -32,197 +35,208 @@ ul {
          
    <div id="page-wrapper"> 
    <article id="main">     
-	<div layout:fragment="content">
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16d06b180e19239477530ca3b1f01e0b"></script>
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <div layout:fragment="content">
+      <script type="text/javascript"
+         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16d06b180e19239477530ca3b1f01e0b"></script>
+      <script
+         src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
-		<p class="text-middle">친구들이 좋아요한 장소입니다<br>일정표에 확정할 장소를 골라주세요</p>
+      <img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
+      <p class="text-middle">친구들이 좋아요한 장소입니다<br>일정표에 확정할 장소를 골라주세요</p>
 
-		<section class="wrapper style4 container">
+      <section class="wrapper style4 container">
 
-			<!-- Content -->
-			<div class="content">
-				<div class="panel-body>">
-					<!-- 여기에 내용 작성하세용-->
+         <!-- Content -->
+         <div class="content">
+            <div class="panel-body>">
+               <!-- 여기에 내용 작성하세용-->
 
-					<div id="map" style="width: 100%; height: 500px;"></div>
-					<ul>
-						<h3><br>추가한 일정</h3>
-						<li></li>
-					</ul>
-					<a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button">다음</a>
-	
-				</div>
-			</div>
-		</section>
+               <div id="map" style="width: 100%; height: 700px;"></div>
+               <ul id="addplace">
+                  <h3><br>추가한 일정</h3>
+                  <li></li>
+               </ul>
+               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button">다음</a>
+   
+            </div>
+         </div>
+      </section>
 
-	</div>
-	
-	   
+   </div>
+   
+      
    </article>
    </div>
 
-	<th:block layout:fragment="script">
-		<script th:inline="javascript">
-			var group_id = [[${groupid}]];
-			console.log(group_id);
+   <th:block layout:fragment="script">
+      <script th:inline="javascript">
+         var group_id = [[${groupid}]];
 
-			$.ajax({
-						url : '/itinerary/allMarker/' + group_id,
-						success : function(data) {
-							var positions = [];
-							for ( let i in data) {
-								positions.push({
-									title : data[i].title,
-									latlng : new kakao.maps.LatLng(
-											data[i].mapy, data[i].mapx), contentid : data[i].contentid
-								});
-								//positions
-								//인포윈도우 타이틀 
-							}//for
+         $.ajax({
+                  url : '/itinerary/allMarker/' + group_id,
+                  success : function(data) {
+                     var positions = [];
+                     for ( let i in data) {
+                        positions.push({
+                           title : data[i].title,
+                           latlng : new kakao.maps.LatLng(
+                                 data[i].mapy, data[i].mapx), contentid : data[i].contentid
+                        });
+                        //positions
+                        //인포윈도우 타이틀 
+                     }//for
 
-							var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 
-							mapOption = {
-								center : new kakao.maps.LatLng(
-										33.38957578397755, 126.54641374900602), // 지도의 중심좌표
-								level : 10
-							// 지도의 확대 레벨
-							};
+                     mapOption = {
+                        center : new kakao.maps.LatLng(
+                              33.38957578397755, 126.54641374900602), // 지도의 중심좌표
+                        level : 9
+                     // 지도의 확대 레벨
+                     };
 
-							var map = new kakao.maps.Map(mapContainer,
-									mapOption); // 지도를 생성합니다
+                     var map = new kakao.maps.Map(mapContainer,
+                           mapOption); // 지도를 생성합니다
 
-							var imageSrc = "images/jejucir.png";
+                     var imageSrc = "images/jejucir.png";
 
-							// console.log(positions);
-							delete i;
+                     // console.log(positions);
+                     delete i;
 
-							for (let i = 0; i < positions.length; i++) {
-								var imageSize = new kakao.maps.Size(24, 24);
-								var markerImage = new kakao.maps.MarkerImage(
-										imageSrc, imageSize); // 마커 이미지를 생성합니다
-								var marker = new kakao.maps.Marker({ // 마커를 생성합니다
-									map : map, // 마커를 표시할 지도
-									position : positions[i].latlng, // 마커를 표시할 위치
-									title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-									image : markerImage, // 마커 이미지 
-									clickable : true
-								// 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+                     for (let i = 0; i < positions.length; i++) {
+                        var imageSize = new kakao.maps.Size(24, 24);
+                        var markerImage = new kakao.maps.MarkerImage(
+                              imageSrc, imageSize); // 마커 이미지를 생성합니다
+                        var marker = new kakao.maps.Marker({ // 마커를 생성합니다
+                           map : map, // 마커를 표시할 지도
+                           position : positions[i].latlng, // 마커를 표시할 위치
+                           title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                           image : markerImage, // 마커 이미지 
+                           clickable : false
+                        // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
 
-								});
+                        });
 
-								iwRemoveable = true;
-								let infowindow = [];
+                        iwRemoveable = true;
+                        let infowindow = [];
 
-								(function(j) {
-									//	 var iwContent = '<div style="padding:5px;"><a>'+ positions[j].title+'</a><br><a class="places" id = "'+positions[j].contentid+'" name="'+positions[j].title+'" onclick="select(this.id, this.name)" style="color:blue" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/.Hello World!,'+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none;" target="_blank" >길찾기</a></div>', 
-									var iwContent = '<div style="padding:10px;"><a style="font-size: 15px;">'
-											+ positions[j].title
-											+ '</a><br><a class="places" id = "'
-											+ positions[j].contentid
-											+ '" name="'
-											+ positions[j].title
-											+ '" onclick="select(this.id, this.name)" style="color:blue; font-size: 14px;" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/'+positions[j].title+','+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none; font-size: 14px;" target="_blank" >길찾기</a></div>',
+                        (function(j) {
+                           //    var iwContent = '<div style="padding:5px;"><a>'+ positions[j].title+'</a><br><a class="places" id = "'+positions[j].contentid+'" name="'+positions[j].title+'" onclick="select(this.id, this.name)" style="color:blue" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/.Hello World!,'+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none;" target="_blank" >길찾기</a></div>', 
+                           var iwContent = '<div style="padding:10px;"><a style="font-size: 15px;">'
+                                 + positions[j].title
+                                 + '</a><br><a class="places" id = "'
+                                 + positions[j].contentid
+                                 + '" name="'
+                                 + positions[j].title
+                                 + '" onclick="select(this.id, this.name)" style="color:blue; font-size: 14px;" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/'+positions[j].title+','+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none; font-size: 14px;" target="_blank" >길찾기</a></div>',
 
-									iwPosition = new kakao.maps.LatLng(
-											positions[j].latlng.La,
-											positions[j].latlng.Ma), iwRemoveable = true;
-									console.log("------------------");
-									kakao.maps.event.addListener(marker,
-											'mouseover', makeOverListener(map,
-													marker, infowindow));
+                           iwPosition = new kakao.maps.LatLng( positions[j].latlng.La,positions[j].latlng.Ma), iwRemoveable = true;
 
-									let aa = new kakao.maps.InfoWindow({
-										position : iwPosition,
-										content : iwContent, // 인포윈도우에 표시할 내용
-										removable : iwRemoveable
-									});
-									infowindow.push(aa);
-									kakao.maps.event.addListener(marker, 'click',
-									function() {
-										// 마커 위에 인포윈도우를 표시합니다
-											infowindow[j].open(map,marker);
-									});
-									console.log(infowindow);
+                         kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map,
+                                      marker, infowindow));
 
-									//인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-									function makeOverListener(map, marker,
-											infowindow) {
-										return function() {
-											aa.open(map, marker);
-										};
-									}
-									function makeOutListener(infowindow) {
-										return function() {
-											aa.close();
-										};
-									}
+                           let aa = new kakao.maps.InfoWindow({
+                              position : iwPosition,
+                              content : iwContent, // 인포윈도우에 표시할 내용
+                              removable : iwRemoveable
+                           });
+                         
+                           infowindow.push(aa);
+                           
+                           kakao.maps.event.addListener(marker, 'click', function() {
+                              // 마커 위에 인포윈도우를 표시합니다
+                                 infowindow[j].open(map,marker);
+                           });
+                           
+                           console.log(infowindow);
 
-								})(i);//function
-							}//for
-						}//success
-					})//ajax
+                           //인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+                           function makeOverListener(map, marker, infowindow) {
+                              return function() {
+                                 aa.open(map, marker);
+                              };
+                           }
+                           function makeOutListener(infowindow) {
+                              return function() {
+                                 aa.close();
+                              };
+                           }
 
-			function select(contentid, title) {
-				$.ajax({
-							type : 'get',
-							data : {
-								"contentid" : contentid,
-								"title" : title
-							},
-							url : '/insertPlaces/' + group_id,
-							dataType : 'text',
-							success : function(data) {
-								if (data == "true") {
-									var newList = "<div class='selected-schedule-one text-center'>";
-									newList += "<span>" + title + " </span>";
-									newList += "</div>";
-									$newList = $(newList);
-									$newBtn = $("<button id='delete-button'>삭제</button>");
-									$newList.append($newBtn);
+                        })(i);//function
+                     }//for
+                  }//success
+               })//ajax
 
-									$newBtn.click(function() {
-										$(this).parent().remove();
-										remove(contentid);
-									});
+         function select(contentid, title) {
+            $.ajax({
+                     type : 'get',
+                     data : {
+                        "contentid" : contentid,
+                        "title" : title
+                     },
+                     url : '/insertPlaces/' + group_id,
+                     dataType : 'text',
+                     success : function(data) {
+                    	 
+                        if (data == "true") {
+                           var newList = "<div class='selected-schedule-one text-center'>";
+                       		newList += "<span cid='" + contentid + "'> " + title + " </span>";
+                           newList += "</div>";
+                           $newList = $(newList);
+                           $newBtn = $("<button id='delete-button'>삭제</button>");
+                           $newList.append($newBtn);
 
-									$("ul").append($newList);
-									alert("일정에 추가했습니다.");
-									console.log(contentid);
+                           $newBtn.click(function() {
+                              $(this).parent().remove();
+                              remove(contentid);
+                           });
 
-									function remove(contentid) {
-										$.ajax({
-											url : '/deletePlaces',
-											data : {
-												"contentid" : contentid,
-												"group_id" : group_id
-											},
-											success : function(data) {
-												console.log(contentid);
-												alert(data == 1 ? '삭제되었습니다.'
-														: "ERROR");
-											}
-										});//ajax
+                           var isOverlap = false;
+							$("#addplace").children("div").each(function(i, element) {
+								let cid = $(element).children("span").attr("cid");
+								
+								if(cid == contentid) {
+									alert('이미 선택한 장소입니다.')
+									isOverlap = true;
+								} 
+							});
+							console.log(isOverlap);
+							if(!isOverlap){
+								$("#addplace").append($newList);
+								alert('일정에 추가하였습니다.')
+							}
+							
+							console.log(contentid);
 
-									}//remove
 
-								}//if
+                           function remove(contentid) {
+                              $.ajax({
+                                 url : '/deletePlaces',
+                                 data : {
+                                    "contentid" : contentid,
+                                    "group_id" : group_id
+                                 },
+                                 success : function(data) {
+                                    console.log(contentid);
+                                    alert(data == 1 ? '삭제되었습니다.'
+                                          : "ERROR");
+                                 }
+                              });//ajax
 
-							}//success
+                           }//remove
 
-						});//ajax
+                        }//if
 
-			}//function
+                     }//success
 
-			// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-			// 이벤트 리스너로는 클로저를 만들어 등록합니다 
-			// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		</script>
-	</th:block>
+                  });//ajax
+         }//function
+
+         // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+         // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+         // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+      </script>
+   </th:block>
 
 
 </body>
