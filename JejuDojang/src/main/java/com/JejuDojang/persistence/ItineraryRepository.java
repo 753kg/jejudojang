@@ -34,7 +34,9 @@ public interface ItineraryRepository extends CrudRepository<ItinerariesVO, Long>
 			+ "where i.group_id =?1")
 	public List<JejuTourListVO> selectItineraryAfterMap(String group_id); 
 	
-	@Query("update ItinerariesVO set schedule = ?1 where  itinerary_id= ?2")
-	public int updateSchedule(Double schedule,Long itinerary_id);
+	@Modifying
+	@Transactional
+	@Query("update ItinerariesVO set schedule = ?1 where contentid= ?2 and group_id=?3")
+	public void updateSchedule(Double schedule,Long contentid,String group_id);
 
 }

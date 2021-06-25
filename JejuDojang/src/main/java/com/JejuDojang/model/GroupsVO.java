@@ -28,6 +28,7 @@ import lombok.ToString;
 @Table(name="groups",uniqueConstraints = {@UniqueConstraint(name = "GROUP_ID_UNIQUE", columnNames = {"GROUP_ID"})})
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 
 public class GroupsVO {
 
