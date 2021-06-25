@@ -3,8 +3,10 @@
  */
 
 
-var noimageicon = "/images/icon/imageicon2.png";
-
+const noimageicon = "/images/icon/imageicon2.png";
+const noresulticon = "/images/icon/information.png";
+const placeIcon = "/images/icon/place.png";
+const telIcon = "/images/icon/telephone.png";
 
 function printPlaces(plist){
 	$.each(plist, function(i, elt) {
@@ -27,18 +29,23 @@ function printPlaces(plist){
 }
 
 function printDetailContent(elt){
-	var placeIcon = "/images/icon/place.png";
-	var telIcon = "/images/icon/telephone.png";
+	
 	var imgurl = elt.firstimage;
 	if(imgurl == ""){
 		imgurl = noimageicon;
 	}
 	
 	var contentStr = "<img class='img-responsive' src='" + imgurl +"'/>";
-	contentStr += "<p><img class='detail-icon' src='" + placeIcon + "'/>" + elt.addr1 + "</p>";
-	if(elt.tel != "")
-		contentStr += "<p><img class='detail-icon' src='" + telIcon + "'/>" + elt.tel + "</p>";
-	
+	contentStr += "<div class='descriptions'>";
+	contentStr += "<img class='detail-icon' src='" + placeIcon + "'/>";
+	contentStr += "<p>" + elt.addr1 + "</p>";
+	contentStr += "</div>";
+	if(elt.tel != ""){
+		contentStr += "<div class='descriptions'>";
+		contentStr += "<img class='detail-icon' src='" + telIcon + "'/>";
+		contentStr += "<p>" + elt.tel + "</p>";
+		contentStr += "</div>";
+	}
 	$(".detail-content").append($(contentStr));
 }
 
@@ -54,14 +61,20 @@ function printBlogSearch(searchQuery, display, start){
 				blog_last_page = Math.ceil(searchResult.total / display);
 				blog_query = query;
 			}
-			$.each(searchResult.items, function(i, e) {
-				var str = "<div class='search-item'>";
-				str += "<a href='" + e["link"] + "' target='_blank'>" + e["title"] + "</a>";
-				str += "<p>" + e["description"] + "</p>";
-				str += "</div>"
-				var $div = $(str)
-				$(".bloglist").append($div)
-			});
+			if(searchResult.total == 0) {
+				console.log("검색결과가 없습니다");
+				var $noresult = $("<p class='no-result text-center'>검색 결과가 없습니다.</p>");
+				$(".bloglist").append($noresult);
+			}else {
+				$.each(searchResult.items, function(i, e) {
+					var str = "<div class='search-item'>";
+					str += "<a href='" + e["link"] + "' target='_blank'>" + e["title"] + "</a>";
+					str += "<p>" + e["description"] + "</p>";
+					str += "</div>"
+					var $div = $(str)
+					$(".bloglist").append($div)
+				});
+			}
 		}
 	});
 }

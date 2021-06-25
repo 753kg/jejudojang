@@ -24,16 +24,22 @@
     background-color: #eee; /*스크롤바 트랙 색상*/
     border-radius: 50px;
 }
-.detail-header {
+.detail-header, .descriptions {
 	display:flex;
 	flex-wrap: wrap;
 	
 }
+
 .place-item {
 	flex: 1 1 50%;
 }
-.place-title {
-	/* font-family: 'GmarketSansBold'; */
+.descriptions img {
+	flex: 1 1 0;
+	padding: 1% 0 1% 1%;
+} 
+.descriptions p {
+	flex: 20 1 0;
+	font-size: 0.9em;
 }
 .selected_tag {
 	min-width: 1em;
@@ -60,7 +66,7 @@
 	margin-top: 5%;
 }
 .detail-header {
-	margin: 20px 0 10px 0;
+	margin: 0;
 }
 .detail-header .detail-title {
 	margin: 0;
@@ -100,4 +106,23 @@
 }
 .place-item {
 	margin-bottom: 2%;
+}
+.search-item a{
+	font-size: 0.9em;
+	text-decoration: none;
+}
+.search-item p{
+	font-size: 0.7em;
+	margin: 1% 0;
+	border-bottom: 1px solid lightgray;
+}
+.no-result {
+	margin: 2%;
+	font-size: 0.8em;
+	/* flex: 5 1 0; */
+}
+.detail-wholiked p {
+	margin: 0;
+	font-size: 0.9em;
+	color: #3F7194;
 }
