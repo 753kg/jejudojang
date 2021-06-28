@@ -1,7 +1,11 @@
 @charset "UTF-8";
-
+.place-title{
+	 font-family: 'GmarketSansLight';
+	 font-weight: bold;
+}
 .img {
 	width: 100%;
+	height: 250px;
 	display: block;
 	margin-top : 0;
 	margin-bottom: 0;
@@ -72,6 +76,7 @@
 	flex: 4 1 0;
 	padding: 2% 0;
 	font-size: 2em;
+	font-family: 'GmarketSansBold';
 }
 .detail-header .detail-heart {
 	flex: 1 1 0;
@@ -99,8 +104,8 @@
 	width: 10% !important;
 }
 .active.selected_tag {
-	background: #F79F57;
-	border-color: #F79F57;
+	background: #FFC000;
+	border-color: #FFC000;
 	/* text-decoration: underline; */
 }
 .place-item {
@@ -109,6 +114,13 @@
 .search-item a{
 	font-size: 0.9em;
 	text-decoration: none;
+	color: #3F7194;
+	font-weight: bold;
+}
+.search-item a b{
+	text-decoration: none;
+	color: #3F7194;
+	font-weight: bold;
 }
 .search-item p{
 	font-size: 0.7em;

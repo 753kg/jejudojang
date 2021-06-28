@@ -26,6 +26,9 @@
 						<a class="selected_tag button primary" th:each="tag:${tags}" th:text="${tag}"></a>
 					</div>
 				</div>
+				<div style="height: 50px;"></div>
+				
+				
 				<div class="row">
 					<div class="placelist col-md-4 scrollbar">
 						<!-- <p id="loading-place" class="loading-msg">로딩중...</p> -->
@@ -35,7 +38,7 @@
 							<div class="detail-header"></div>
 							<div class="detail-content"></div>
 							<div class="detail-search">
-								<label>네이버 블로그 리뷰</label>
+								<label style="font-family: 'GmarketSansBold';">네이버 블로그 리뷰</label>
 								<div class="bloglist"></div>
 								<!-- <p id="loading-blog" class="loading-msg">로딩중...</p> -->
 							</div>
@@ -43,6 +46,9 @@
 						
 					</div>
 				</div>
+				
+				<div style="height: 100px;"></div>
+				
 				<div class="row">
 					<div class="prev-next-btn col-xs-12 text-center">
 						<a th:href="@{/itinerary/style(groupid=${groupid})}" class="btn-prev button">뒤로</a>

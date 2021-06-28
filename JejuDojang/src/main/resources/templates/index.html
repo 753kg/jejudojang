@@ -20,7 +20,13 @@
 				background-color: #F79F57;
 				color: white;
 			}
-		</style>
+      #main-button:hover{
+      color:gray;
+      }
+      #main-header-button{
+      border:none !important;
+      }
+    </style>
 	</head>
 	
 	<body class="index is-preload">
@@ -33,12 +39,12 @@
      				</div>
 			<!-- Header -->
 				<header id="header" class="alt">
-					<h1 id="logo"><a href="index">Jeju <span>DoJang</span></a></h1>
+					<h1 id="logo"><a th:href="@{/index}">Jeju <span>DoJang</span></a></h1>
 					<nav id="nav">
 						<ul>
-							<li class="current"><a href="index">HOME</a></li>
+							<li class="current" ><a th:href="@{/index}" id="main-header-button">HOME</a></li>
 							<li class="submenu">
-								<a href="#">menu</a>
+								<a href="#" id="main-header-button">menu</a>
 								<ul>
 									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
 									<li>
@@ -48,8 +54,8 @@
 									<li class="submenu">
 										<a href="#">게시판</a>
 										<ul>
-											<li><a href="../boards/list">번개 만남</a></li>
-											<li><a href="#">일정 공유</a></li>
+											<li><a th:href="@{/boards/list}">번개 만남</a></li>
+											<li><a th:href="@{/boards2/list}">일정 공유</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -69,7 +75,6 @@
 			<!-- Banner -->
 			
 				<section id="banner">
-				
 					<div class="inner">
 						<header>
 							<img alt="제주도장깨기" src="/images/index_제주도장깨기.png">
@@ -82,8 +87,8 @@
 							
 						<footer>
 							<ul class="buttons stacked">
-								<li><a href="#main" class="button fit scrolly">일정 짜기</a></li>
-								<li><a href="#major" class="button fit scrolly">번개 만남</a></li>
+								<li><a href="#main" class="button fit scrolly" id="main-button">일정 짜기</a></li>
+								<li><a href="#major" class="button fit scrolly" id="main-button">번개 만남</a></li>
 							</ul>
 						</footer>
 					</div>
@@ -103,74 +108,11 @@
 					</header>
 
 					<!-- 미리보기 화면 넣기 -->
-						<section class="wrapper style2 container special-alt">
-							<div class="row gtr-50">
-								<div class="col-8 col-12-narrower">
+						
+							<a style="border: none;" th:href="@{/itinerary}"><img alt="제주도장깨기" src="/images/메인일정짜기소개.png" style="margin:50px 0px 250px 0px;"></a>
+						
 
-									<header>
-										<h2>Behold the <strong>icons</strong> that visualize what you’re all about. or just take up space. your call bro.</h2>
-									</header>
-									<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu comteger ut fermentum lorem. Lorem ipsum dolor sit amet. Sed tristique purus vitae volutpat ultrices. eu elit eget commodo. Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo.</p>
-									<footer>
-										<ul class="buttons">
-											<li><a href="#" class="button">Find Out More</a></li>
-										</ul>
-									</footer>
-
-								</div>
-								<div class="col-4 col-12-narrower imp-narrower">
-
-									<ul class="featured-icons">
-										<li><span class="icon fa-clock"><span class="label">Feature 1</span></span></li>
-										<li><span class="icon solid fa-volume-up"><span class="label">Feature 2</span></span></li>
-										<li><span class="icon solid fa-laptop"><span class="label">Feature 3</span></span></li>
-										<li><span class="icon solid fa-inbox"><span class="label">Feature 4</span></span></li>
-										<li><span class="icon solid fa-lock"><span class="label">Feature 5</span></span></li>
-										<li><span class="icon solid fa-cog"><span class="label">Feature 6</span></span></li>
-									</ul>
-
-								</div>
-							</div>
-						</section>
-
-					<!-- Two -->
-						<section class="wrapper style1 container special">
-							<div class="row">
-								<div class="col-4 col-12-narrower">
-
-									<section>
-										<span class="icon solid featured fa-check"></span>
-										<header>
-											<h3>This is Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-									</section>
-
-								</div>
-								<div class="col-4 col-12-narrower">
-
-									<section>
-										<span class="icon solid featured fa-check"></span>
-										<header>
-											<h3>Also Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-									</section>
-
-								</div>
-								<div class="col-4 col-12-narrower">
-
-									<section>
-										<span class="icon solid featured fa-check"></span>
-										<header>
-											<h3>Probably Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-									</section>
-
-								</div>
-							</div>
-						</section>
+			
 
 					<!-- 번개만남 -->
 						<section id="major" class="wrapper style3 container special">
