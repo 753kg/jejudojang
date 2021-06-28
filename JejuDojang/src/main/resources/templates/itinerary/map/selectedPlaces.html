@@ -23,13 +23,33 @@ ul {
    padding: 5px 5px;
 }
 #main img{
-width:20px;
-height:20px;
+	width:20px;
+	height:20px;
+}
+.btn-next.button{
+height:70px;
+left:100px;
+font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
+    min-width: 300px;
+    padding: 0;
+    line-height: 70px;
+    width:200px;
+}
+.btn-next button{
+	float:right;
+}
+#delete-button{
+	width:50px;
+	height:30px;
+	min-width: 0;
+	line-height: 0;
+	border-radius: 10%;
+}
+.hb{
+	text-align: center;
+	font-size: 23px;
 }
 </style>
-
-
-
 <body class="no-sidebar is-preload">
    <div th:insert="~{fragments/header::header}"></div>
          
@@ -38,12 +58,9 @@ height:20px;
    <div layout:fragment="content">
       <script type="text/javascript"
          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16d06b180e19239477530ca3b1f01e0b"></script>
-      <script
-         src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
       <p class="text-middle">친구들이 좋아요한 장소입니다<br>일정표에 확정할 장소를 골라주세요</p>
-
       <section class="wrapper style4 container">
 
          <!-- Content -->
@@ -52,25 +69,23 @@ height:20px;
                <!-- 여기에 내용 작성하세용-->
 
                <div id="map" style="width: 100%; height: 700px;"></div>
-               <ul id="addplace">
-                  <h3><br>추가한 일정</h3>
-                  <li></li>
-               </ul>
-               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button">다음</a>
-   
-            </div>
-         </div>
-      </section>
-
-   </div>
-   
-      
-   </article>
+	               <ul id="addplace">
+	               	<br>
+	                  <li class="hb">추가한 일정</li>
+	                 <br>
+	               </ul>  
+	               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button">다음</a>
+	   
+		            </div>
+		         </div>
+		      </section>
+		   </div>
+	   </article>
    </div>
 
    <th:block layout:fragment="script">
       <script th:inline="javascript">
-         var group_id = [[${groupid}]];
+         var group_id = [[ ${groupid} ]];
 
          $.ajax({
                   url : '/itinerary/allMarker/' + group_id,
@@ -132,8 +147,7 @@ height:20px;
 
                            iwPosition = new kakao.maps.LatLng( positions[j].latlng.La,positions[j].latlng.Ma), iwRemoveable = true;
 
-                         kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map,
-                                      marker, infowindow));
+                         kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map,  marker, infowindow));
 
                            let aa = new kakao.maps.InfoWindow({
                               position : iwPosition,
@@ -183,7 +197,7 @@ height:20px;
                        		newList += "<span cid='" + contentid + "'> " + title + " </span>";
                            newList += "</div>";
                            $newList = $(newList);
-                           $newBtn = $("<button id='delete-button'>삭제</button>");
+                           $newBtn = $("<button id='delete-button'>&nbsp;삭제</button>");
                            $newList.append($newBtn);
 
                            $newBtn.click(function() {
