@@ -65,8 +65,8 @@ public class ReactController {
 		return "main/mypage";
 	}
 	
-	@GetMapping("/retrieveitinerary/{group_id}")
-	public String retrieveitinerary(@PathVariable String group_id,Model model) {
+	@GetMapping("/retrieveitinerary")
+	public String retrieveitinerary( String group_id,Model model) {
 		List<MypageVO> mypages = itineraryService.getMypageVO(group_id);
 		System.out.println("mypages : "+mypages);
 		model.addAttribute("mypages",mypages);

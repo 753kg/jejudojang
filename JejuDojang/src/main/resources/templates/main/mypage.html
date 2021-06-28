@@ -51,7 +51,7 @@ color: white; font-family: 'GmarketSansBold'; font-size: 35px;
 								<p></p>
 								<p id="date-style" >여행 출발일 : [[${group.start_day}]]</p>
 								<p id="date-style" >여행 마지막일 : [[${group.end_day}]]</p>
-                <a th:href="${'../../api/retrieveitinerary/' + group.group_id}">완성된 일정 보기</a>
+                <a th:href="${'../../api/retrieveitinerary?group_id=' + group.group_id}">테스트</a>
 								<a th:href="@{/itinerary/style(groupid=${group.group_id})}">스타일 고르러 가기</a>
 							</div>
 							
@@ -81,4 +81,3 @@ color: white; font-family: 'GmarketSansBold'; font-size: 35px;
 </body>
 
 </html>
-
