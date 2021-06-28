@@ -26,11 +26,13 @@
 				<div ></div>
 				<div class="row" >
 					<div class="col-xs-5" id="likesBox" >
-						<div th:each="groups, i : ${groups}" style="border : solid 1px black">
-							<div onclick="#">
-								<p>[[${groups.group_name}]]</p>
-								<p>여행 출발일 : [[${groups.start_day}]]</p>
-								<p>여행 마지막일 : [[${groups.end_day}]]</p>
+						<div th:each="group, i : ${groups}" style="border : solid 1px black">
+							<div>
+								<p>[[${group.group_name}]]</p>
+								<p>여행 출발일 : [[${group.start_day}]]</p>
+								<p>여행 마지막일 : [[${group.end_day}]]</p>
+								<p>[[${group.group_id}]]</p>
+								<a th:href="${'../../api/retrieveitinerary/' + group.group_id}">테스트</a>
 							</div>
 							
 						</div>
@@ -48,7 +50,7 @@
 
 	<th:block layout:fragment="script">
 	<script>
-		
+	
 		</script>
 	</th:block>
 	

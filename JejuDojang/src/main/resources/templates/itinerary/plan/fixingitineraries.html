@@ -74,18 +74,18 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 				 <button onclick="save()" id="save-button">일정 저장</button>
 					<div id="likesBox" ondrop="drop(event)" ondragover="allowDrop(event)" >
 						 <p id="title-font">선택된 장소</p>
-						<div th:each="itinerary, i : ${itinerary}" >
-							<div  th:aa="${itinerary.contentid}" th:id="${'tour' + i.index}"  draggable="true" ondragstart="drag(event)" th:class="place-picture" th:style="'background-image: url(' + ${itinerary.firstimage} + '); '">
-								<div th:text="${itinerary.title}" id="double-font">[[${itinerary.title}]]</div>
+						<div th:each="it, i : ${itinerary}" >
+							<div  th:aa="${it.contentid}" th:id="${'tour' + i.index}"  draggable="true" ondragstart="drag(event)" th:class="place-picture" th:style="'background-image: url(' + ${it.firstimage} + '); '">
+								<div th:text="${it.title}" id="double-font">[[${it.title}]]</div>
 							</div>
 						</div>
 					</div>
 					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
                   <p id="day-font">day<span id="span-font">[[${num}]]</span></p>
-                  <div  th:order="${num}+'.'" th:id="'day'+${num}" class="col-xs-5" style="width:370px; height:1200px;">
+                  <div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:370px; height:1200px;">
                      <div th:each="count:${#numbers.sequence(1,9)}">
                         <div th:order="${count}" th:id="'plan'+${count}" ondrop="drop(event)" ondragover="allowDrop(event)" style="border:solid 1px lightgray; height: 140px; width:370px;"></div>
-
+								<!-- 삽입 -->
 							</div>
 						</div>
 					</div>
@@ -117,39 +117,36 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 		}
 		
 		function save(){
-			$("div.daycontainer > div > div").each(function(index, item){
-				
-				console.log($(item).children("div").children("div.place-picture").attr("aa"));
-				console.log("index : "+index);
-				console.log("item : "+item.id);
-				console.log("***********");
-				for(var j=1;j<10;j++){
-					var schedule = $(item).find("#plan"+j).find("div");
-					console.log($("#content"+index).attr("aa"));
-					console.log("schedule : "+schedule.length);
-					if($(schedule).length==2){
-						var temp = index+1+(j*0.1);
-						console.log("temp : "+temp);
-						$.ajax({
-							url:'/api/updateschedule',
-							data:{
-								"schedule":temp,
-								"contentid":$(item).children("div").children("div.place-picture").attr("aa"),
-								"group_id":[[${groupid}]]
-							},
-							success:function(data){
-								alert(data==1?'업데이트 성공':'업데이트 실패');
-							}
-						});
-					}
-					
-				}
-			});
-			location.href = "../../retrieveMarker?groupid=" + [[${groupid}]];
-			
+		$("div.daycontainer > div").each(function(i, element) {
+            var day = parseInt($(element).attr("order"));
+            
+            $(element).children("div").children("div").each(function(i2, e2) {
+               var index = $(e2).attr("order");
+               var contentid = $(e2).children("div").attr("aa");
+               var schedule = index * 0.1 + day;
+               
+               if(contentid != null){
+                  $.ajax({
+                     url:'/api/updateschedule',
+                     data:{
+                        "schedule":schedule,
+                        "contentid":contentid,
+                        "group_id":[[${groupid}]]
+                     },
+                     success:function(data){
+                        //alert(data==1?'업데이트 성공':'업데이트 실패');
+                     }
+                  });
+               }
+            });
+         });
+		
+		location.href = "../../retrieveMarker?groupid=" + [[${groupid}]];
 		}
 		</script>
 	</th:block>
+	
+	
 	
 	
 
