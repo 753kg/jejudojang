@@ -14,23 +14,24 @@
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close  text-right" data-dismiss="modal"
+					<span class="close text-right" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
-					</button>
+					</span>
 				</div>
 				<div class="modal-body">
-					<h1 id="modal-logo" class="text-center"><a href="index"><span>Jeju</span> DoJang</a></h1>
-	
+					<h1 id="modal-logo" class="text-center"><span>Jeju</span> DoJang</h1>
+					<p class="login-text text-center">SNS 계정으로</p>
+					<p class="login-text text-center">간편하게 로그인 하세요.</p>
 					<div class="btn btn-naver">
 						<a href="/oauth2/authorization/naver" role="button">
-							<img class="img-responsive" th:src="@{/images/icon/btnG_완성형.png}">
+							<img class="img-responsive" th:src="@{/images/icon/btnW_완성형.png}">
 						</a>
 					</div>
 
 					<div class="btn btn-google">
 						<a href="/oauth2/authorization/google" role="button">
-							<img class="img-responsive" th:src="@{/images/icon/btn_google_blue.png}">
+							<img class="img-responsive" th:src="@{/images/icon/btn_google.png}">
 						</a>
 					</div>
 				</div>
