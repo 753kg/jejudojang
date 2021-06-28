@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.JejuDojang.config.auth.LoginUser;
 import com.JejuDojang.config.auth.dto.SessionUser;
 import com.JejuDojang.model.GroupsVO;
+import com.JejuDojang.model.JejuTourListVO;
+import com.JejuDojang.model.MypageVO;
 import com.JejuDojang.service.GroupService;
 import com.JejuDojang.service.ItineraryService;
 import com.JejuDojang.service.TourLikeService;
@@ -61,6 +63,15 @@ public class ReactController {
 		model.addAttribute("groups",groups);
 		System.out.println(groups);
 		return "main/mypage";
+	}
+	
+	@GetMapping("/retrieveitinerary/{group_id}")
+	public String retrieveitinerary(@PathVariable String group_id,Model model) {
+		List<MypageVO> mypages = itineraryService.getMypageVO(group_id);
+		System.out.println("mypages : "+mypages);
+		model.addAttribute("mypages",mypages);
+		model.addAttribute("days", groupsService.findGroupDays(group_id));
+		return "main/retrieveitinerary";
 	}
 }
 
