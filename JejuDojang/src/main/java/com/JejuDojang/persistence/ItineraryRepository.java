@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.JejuDojang.model.ItinerariesVO;
 import com.JejuDojang.model.JejuTourListVO;
+import com.JejuDojang.model.MypageVO;
 
 public interface ItineraryRepository extends CrudRepository<ItinerariesVO, Long> {
 	
@@ -38,5 +39,8 @@ public interface ItineraryRepository extends CrudRepository<ItinerariesVO, Long>
 	@Transactional
 	@Query("update ItinerariesVO set schedule = ?1 where contentid= ?2 and group_id=?3")
 	public void updateSchedule(Double schedule,Long contentid,String group_id);
+	
+	@Query(value = "select i.schedule,jt.firstimage,jt.title,i.group_id,jt.contentid from itineraries i join jeju_tourlists jt on i.contentid=jt.contentid where group_id = ?1",nativeQuery = true)
+	public List<Object[]> selectRetrieve(String group_id); 
 
 }
