@@ -2178,7 +2178,8 @@ input, select, textarea {
 		button:hover,
 		.button:hover {
 			background: rgba(188, 202, 206, 0.15);
-			border-color: inherit;
+			border-color: lightgray;
+			color:gray;
 		}
 
 		input[type="button"].primary,
