@@ -32,7 +32,7 @@
 								<p>여행 출발일 : [[${group.start_day}]]</p>
 								<p>여행 마지막일 : [[${group.end_day}]]</p>
 								<p>[[${group.group_id}]]</p>
-								<a th:href="${'../../api/retrieveitinerary/' + group.group_id}">테스트</a>
+								<a th:href="${'../../api/retrieveitinerary?group_id=' + group.group_id}">테스트</a>
 							</div>
 							
 						</div>
