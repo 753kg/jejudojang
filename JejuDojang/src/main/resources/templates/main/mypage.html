@@ -9,30 +9,50 @@
 
 <th:block layout:fragment="style1">
 <style type="text/css">
-
+#boxes{
+border : solid 1px #3F7194; 
+padding: 50px 0px 20px 0px; 
+width:450px; 
+float:left; 
+margin-bottom: 60px; 
+margin-right: 60px; 
+margin-left:60px;
+background-color: #3F7194;
+color:white;
+}
+#date-style2{
+border: solid 1px white; background-color: white; display: inline; color: black;
+padding:5px;
+}
+#date-style{
+color:white;
+}
+#groupname{
+color: white; font-family: 'GmarketSansBold'; font-size: 35px;
+}
 </style>
 </head>
 <body>
 <div layout:fragment="content">
 	
-		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
-		<p class="text-middle">내 여행계획</p>
+		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/마이페이지.png">
+		<p class="text-middle">여행 일정들을 조회해보세요!</p>
 					
 		<section class="wrapper style4 container">
 		
 			<!-- Content -->
 			<div class="panel-body>">
 				<!-- 여기에 내용 작성하세용-->
-				<div ></div>
 				<div class="row" >
-					<div class="col-xs-5" id="likesBox" >
-						<div th:each="group, i : ${groups}" style="border : solid 1px black">
-							<div>
-								<p>[[${group.group_name}]]</p>
-								<p>여행 출발일 : [[${group.start_day}]]</p>
-								<p>여행 마지막일 : [[${group.end_day}]]</p>
-								<p>[[${group.group_id}]]</p>
-								<a th:href="${'../../api/retrieveitinerary?group_id=' + group.group_id}">테스트</a>
+					<div>
+						<div th:each="group, i : ${groups}" id="boxes">
+							<div style="text-align: center;">
+								<a th:href="${'../../api/retrieveitinerary/' + group.group_id}" id="groupname" >[[${group.group_name}]]</a>
+								<p></p>
+								<p id="date-style" >여행 출발일 : [[${group.start_day}]]</p>
+								<p id="date-style" >여행 마지막일 : [[${group.end_day}]]</p>
+                <a th:href="${'../../api/retrieveitinerary?group_id=' + group.group_id}">테스트</a>
+								<a th:href="@{/itinerary/style(groupid=${group.group_id})}">스타일 고르러 가기</a>
 							</div>
 							
 						</div>
@@ -61,4 +81,3 @@
 </body>
 
 </html>
-

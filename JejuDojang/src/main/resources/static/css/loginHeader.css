@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#modal-logo {
+	color: inherit;
+    font-weight: 300 !important;
+	font-family: 'GmarketSansLight';
+	font-size: 1.2em;
+	margin-bottom: 1em !important;
+}

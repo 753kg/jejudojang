@@ -1,13 +1,16 @@
 package com.JejuDojang.controller;
 
+import java.io.IOException;
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.JejuDojang.config.auth.LoginUser;
 import com.JejuDojang.config.auth.dto.SessionUser;
@@ -41,6 +46,9 @@ public class StyleSelectController {
 	private final GroupService groupService;
 	private final TourLikeService tourLikeService;
 	private final ObjectMapper mapper;
+	private final JavaMailSender javaMailSender;
+	private final SpringTemplateEngine templateEngine;
+	
 	
 	@GetMapping("/itinerary")
 	public String with(Model model, @LoginUser SessionUser user) throws JsonProcessingException {
@@ -57,7 +65,7 @@ public class StyleSelectController {
 	
 	@GetMapping("/itinerary/makegroup")
 	public String makeGroup(String itineraryName, String itineraryDate, String[] friendlist,
-			@LoginUser SessionUser user, HttpSession httpSession, RedirectAttributes rttr) {
+			@LoginUser SessionUser user, HttpSession httpSession, RedirectAttributes rttr) throws MessagingException, IOException {
 		
 		String groupid = System.currentTimeMillis() + "";
 		String[] dates = itineraryDate.split(" to ");
@@ -79,6 +87,7 @@ public class StyleSelectController {
 		}
 		
 		if(user != null) {
+			String hostName = user.getName();
 			// 1. 그룹 insert , groupmember에 본인 inert
 			groupService.saveGroup(groupid, itineraryName ,user.getEmail(), start_day, end_day);
 			
@@ -86,6 +95,7 @@ public class StyleSelectController {
 			if(user.getRole() == MemberRole.USER) {
 				if(friendlist.length != 0) {
 					groupService.inviteFriend(groupid, friendlist);
+					sendMail(friendlist, groupid, hostName);
 				}
 			}
 		}
@@ -115,6 +125,23 @@ public class StyleSelectController {
 	public void retrieveOurFavorite(Model model, @RequestParam String groupid) {
 		model.addAttribute("groupid", groupid);
 		model.addAttribute("tags", tourLikeService.getTagsByGroupId(groupid));
+	}
+	
+	public void sendMail(String[] friendEmail, String groupid, String hostName) throws MessagingException, IOException {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+		
+		helper.setSubject("[제주도장깨기] 떠나요 제주도 모든걸 털어버리고 ");
+		helper.setTo(friendEmail);
+		
+		Context context = new Context();
+		context.setVariable("groupid", groupid);
+		context.setVariable("hostName", hostName);
+		
+		String html = templateEngine.process("mail-template", context);
+		helper.setText(html, true);
+		
+		javaMailSender.send(message);
 	}
 	
 }

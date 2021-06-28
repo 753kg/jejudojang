@@ -20,30 +20,94 @@ ul {
 }
 
 #delete-button {
-   padding: 5px 5px;
+   padding: 5px 0 5px 0 ;
+   background-color: darkgray;
+   color:white;
 }
 #main img{
-width:20px;
-height:20px;
+	width:20px;
+	height:20px;
 }
+.btn-next.button{
+
+}
+
+#delete-button{
+	width:50px;
+	height:30px;
+	min-width: 0;
+	line-height: 0;
+	border-radius: 10%;
+}
+.hb{
+	text-align: center;
+	font-size: 23px;
+}
+#itinerary-title{
+background-color:#3F7194;
+padding: 10px 0 10px 0;
+color:white;
+font-family: 'GmarketSansBold';
+}
+#next-button{
+float: right;}
+.selected-schedule-one span{
+font-family: 'IBMPlexSansKR-Light';
+color:black;
+text-align: left;
+}
+
+
 </style>
-
-
-
 <body class="no-sidebar is-preload">
-   <div th:insert="~{fragments/header::header}"></div>
-         
+         <!-- Header -->
+		<div th:fragment="header">
+				<header id="header">
+					<h1 id="logo"><a th:href="@{/index}">Jeju <span>DoJang</span></a></h1>
+					<nav id="nav">
+						<ul>
+							<li class="current"><a th:href="@{/index}">HOME</a></li>
+							<li class="submenu">
+								<a href="#">menu</a>
+								<ul>
+									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
+									<li>
+										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" href="/api/mypage">MyPage</a>
+										<a th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</a>
+									</li>
+									
+									<li class="submenu">
+										<a href="#">게시판</a>
+										<ul>
+											<li><a th:href="@{/boards/list}">번개 만남</a></li>
+											<li><a th:href="@{/boards2/list}">일정 공유</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<span th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}">
+									<a href="/logout" class="button primary" id="button-board">Log Out</a>
+								</span>
+								<span th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}">
+									<a data-toggle="modal" data-target="#myModal" class="button primary" id="button-board">Log In</a>
+								</span>
+							</li>
+						</ul>
+					</nav>
+					
+					<div th:insert="~{fragments/loginModal::loginModal}"></div>
+					
+				</header>
+		</div>
    <div id="page-wrapper"> 
    <article id="main">     
    <div layout:fragment="content">
       <script type="text/javascript"
          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16d06b180e19239477530ca3b1f01e0b"></script>
-      <script
-         src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-      <img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
-      <p class="text-middle">친구들이 좋아요한 장소입니다<br>일정표에 확정할 장소를 골라주세요</p>
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <img alt="페이지 이름 들어간 이미지 넣기" src="../images/일정짜기.png" style="width: 100%; height: 100%;">
+      <p class="text-middle">지도에서 위치를 확인하고 <br>일정에 추가할 장소를 선택해주세요!</p>
       <section class="wrapper style4 container">
 
          <!-- Content -->
@@ -52,25 +116,26 @@ height:20px;
                <!-- 여기에 내용 작성하세용-->
 
                <div id="map" style="width: 100%; height: 700px;"></div>
-               <ul id="addplace">
-                  <h3><br>추가한 일정</h3>
-                  <li></li>
-               </ul>
-               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button">다음</a>
-   
-            </div>
-         </div>
-      </section>
-
-   </div>
-   
-      
-   </article>
+	               <ul id="addplace">
+	               	<br>
+	                  <li class="hb" id="itinerary-title">추가한 일정</li>
+	                 <br>
+	               </ul>  
+	               <div style="width:298px; margin: 0 auto;">
+	               
+	               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button" id="next-button">다음</a>
+		            
+		            </div>
+		            </div>
+		         </div>
+		      </section>
+		   </div>
+	   </article>
    </div>
 
    <th:block layout:fragment="script">
       <script th:inline="javascript">
-         var group_id = [[${groupid}]];
+         var group_id = [[ ${groupid} ]];
 
          $.ajax({
                   url : '/itinerary/allMarker/' + group_id,
@@ -122,18 +187,17 @@ height:20px;
 
                         (function(j) {
                            //    var iwContent = '<div style="padding:5px;"><a>'+ positions[j].title+'</a><br><a class="places" id = "'+positions[j].contentid+'" name="'+positions[j].title+'" onclick="select(this.id, this.name)" style="color:blue" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/.Hello World!,'+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none;" target="_blank" >길찾기</a></div>', 
-                           var iwContent = '<div style="padding:10px;"><a style="font-size: 15px;">'
+                           var iwContent = '<div style="padding:5px; width:200px; height:100px; "><a style="font-size: 15px; color:black; font-family: GmarketSansBold; color:#3F7194;">'
                                  + positions[j].title
                                  + '</a><br><a class="places" id = "'
                                  + positions[j].contentid
                                  + '" name="'
                                  + positions[j].title
-                                 + '" onclick="select(this.id, this.name)" style="color:blue; font-size: 14px;" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/'+positions[j].title+','+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none; font-size: 14px;" target="_blank" >길찾기</a></div>',
+                                 + '" onclick="select(this.id, this.name)" style="color:black; font-size: 14px;" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/'+positions[j].title+','+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:black; text-decoration:none; font-size: 14px;" target="_blank" >길찾기</a></div>',
 
                            iwPosition = new kakao.maps.LatLng( positions[j].latlng.La,positions[j].latlng.Ma), iwRemoveable = true;
 
-                         kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map,
-                                      marker, infowindow));
+                         kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map,  marker, infowindow));
 
                            let aa = new kakao.maps.InfoWindow({
                               position : iwPosition,
@@ -180,7 +244,7 @@ height:20px;
                     	 
                         if (data == "true") {
                            var newList = "<div class='selected-schedule-one text-center'>";
-                       		newList += "<span cid='" + contentid + "'> " + title + " </span>";
+                       		newList += "<span cid='" + contentid +"'> " + title + " </span>";
                            newList += "</div>";
                            $newList = $(newList);
                            $newBtn = $("<button id='delete-button'>삭제</button>");

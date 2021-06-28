@@ -60,8 +60,8 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 <body>
 <div layout:fragment="content">
 	
-		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
-		<p class="text-middle">선택한 장소를 드래그해서 원하는 날짜로 옮겨보세요.</p>
+		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/마이페이지.png">
+		<p class="text-middle">선택한 여행의 일정입니다.</p>
 					
 		<section class="wrapper style4 container">
 		
@@ -72,13 +72,12 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 				
 					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
                   		<p id="day-font">day<span id="span-font">[[${num}]]</span></p>
-                  		<div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:370px; height:1200px;">
+                  		<div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:330px; height:1200px;">
                      
                      	<div class="boxes" th:each="count:${#numbers.sequence(1,9)}">
                         	<div class="box" th:order="${count}" th:id="'plan'+${count}" style="border:solid 1px lightgray; height: 140px; width:370px;">
                         		
-									
-								
+
 							</div>
                         	</div>
 						</div>
