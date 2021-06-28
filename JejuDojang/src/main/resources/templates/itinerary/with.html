@@ -158,35 +158,36 @@
 				var keyword = findFriend.val();
 				
 				if(keyword != ""){
-					$.getJSON("/itinerary/findFriends/" + keyword, function(responseData){
-						if(responseData == ""){
-							$div = $("<p>검색 결과가 없습니다.</p>");
-							$(".all-user").append($div);
-						}
-						console.log(responseData);
-						$.each(responseData, function(i, elt) {
-							//if(elt.email == user.email) return true;	// continue
-							
-							var str = "<li class='dropdown-item'>";
-							if(elt.picture == null) {
-								elt.picture = "/images/icon/search.png";
-							}
-							str += "<img class='user-picture img-rounded' src='" + elt.picture + "'>";
-							str += "<div class='user-id'>"
-							str += "<p>" + elt.name + "</p>";
-							str += "<p>" + elt.email + "</p>";
-							str += "<div>"
-							str += "</li>";
-							$div = $(str);
-							$div.click(function(){
-								selectFriend(elt);
-							});
-							$(".all-user").append($div);
-						})
-						
-					});
+					$.getJSON("/itinerary/findFriends/" + keyword, printFriends);
 				}
 			});
+			
+			function printFriends(responseData){
+				if(responseData == ""){
+					$div = $("<p>검색 결과가 없습니다.</p>");
+					$(".all-user").append($div);
+				}
+				console.log(responseData);
+				$.each(responseData, function(i, elt) {
+					//if(elt.email == user.email) return true;	// continue
+					
+					var str = "<li class='dropdown-item'>";
+					if(elt.picture == null) {
+						elt.picture = "/images/icon/search.png";
+					}
+					str += "<img class='user-picture img-rounded' src='" + elt.picture + "'>";
+					str += "<div class='user-id'>"
+					str += "<p>" + elt.name + "</p>";
+					str += "<p>" + elt.email + "</p>";
+					str += "<div>"
+					str += "</li>";
+					$div = $(str);
+					$div.click(function(){
+						selectFriend(elt);
+					});
+					$(".all-user").append($div);
+				});
+			}
 			
 			var friendArr = [];
 			

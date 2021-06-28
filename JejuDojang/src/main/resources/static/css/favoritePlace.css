@@ -16,7 +16,7 @@
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    background-color: orange; /*스크롤바의 색상*/
+    background-color: #F79F57; /*스크롤바의 색상*/
     border-radius: 50px;
 }
 

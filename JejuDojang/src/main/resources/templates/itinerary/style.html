@@ -39,8 +39,8 @@ input:checked + span.button.primary {
 	
 		<img alt="페이지 이름 들어간 이미지 넣기" src="/images/일정짜기.png">
 		<p class="text-middle">
-			<p class="animate__animated animate__fadeIn text-middle">여행 스타일을 선택해주세요!</p>
-			<p class="animate__animated animate__fadeIn text-middle">선택하신 테마에 맞는 장소를 추천해드릴게요.</p>
+			여행 스타일을 선택해주세요!</br>
+			선택하신 테마에 맞는 장소를 추천해드릴게요.
 		</p>
 					
 		<section class="wrapper style4 container">
@@ -63,7 +63,7 @@ input:checked + span.button.primary {
 						
 						<div class="row">
 							<div class="col-xs-12">
-								<input id="submitBtn" type="submit" class="btn btn-default btn-lg animate__animated animate__fadeIn" value="다음">
+								<input id="submitBtn" type="submit" class="btn btn-default btn-lg" value="다음">
 							</div>
 						</div>
 		
@@ -74,27 +74,7 @@ input:checked + span.button.primary {
 			</div>
 		</section>
 		
-	</div>	
-
-
-	<th:block layout:fragment="script">
-		<!-- 여기에 자바스크립트 쓰시오-->
-		<script>
-			$(".tag").hide();
-			$("#submitBtn").hide();
-			
-			setTimeout(function() {
-				$(".tag").addClass("animate__animated animate__fadeInUp");
-				$(".tag").show();
-			}, 300);
-			
-			setTimeout(function() {
-				$("#submitBtn").addClass("animate__animated animate__fadeIn");
-				$("#submitBtn").show();
-			}, 800);
-			
-		</script>
-	</th:block>
+	</div>
 	
 </body>
 </html>

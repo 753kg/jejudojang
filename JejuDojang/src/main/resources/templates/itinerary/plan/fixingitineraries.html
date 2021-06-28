@@ -85,7 +85,6 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
                   <div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:370px; height:1200px;">
                      <div th:each="count:${#numbers.sequence(1,9)}">
                         <div th:order="${count}" th:id="'plan'+${count}" ondrop="drop(event)" ondragover="allowDrop(event)" style="border:solid 1px lightgray; height: 140px; width:370px;"></div>
-								<!-- 삽입 -->
 							</div>
 						</div>
 					</div>
