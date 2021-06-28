@@ -8,10 +8,10 @@
 <!-- Header -->
 		<div th:fragment="header">
 				<header id="header">
-					<h1 id="logo"><a href="../index">Jeju <span>DoJang</span></a></h1>
+					<h1 id="logo"><a th:href="@{/index}">Jeju <span>DoJang</span></a></h1>
 					<nav id="nav">
 						<ul>
-							<li class="current"><a href="../index">HOME</a></li>
+							<li class="current"><a th:href="@{/index}">HOME</a></li>
 							<li class="submenu">
 								<a href="#">menu</a>
 								<ul>
@@ -24,8 +24,8 @@
 									<li class="submenu">
 										<a href="#">게시판</a>
 										<ul>
-											<li><a href="../boards/list">번개 만남</a></li>
-											<li><a href="#">일정 공유</a></li>
+											<li><a th:href="@{/boards/list}">번개 만남</a></li>
+											<li><a th:href="@{/boards2/list}">일정 공유</a></li>
 										</ul>
 									</li>
 								</ul>

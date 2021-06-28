@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout1}">
 	<head>
-		<title>번개 만남</title>
+		<title>일정 공유</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" th:href="@{/css/main.css}" />
@@ -41,7 +41,7 @@
 	#searchType{
 	border-bottom: dotted 1px !important;
 	color:#3fb1a3;}
-	th{
+		th{
 	text-align: center;}
 	</style>
 	
@@ -52,8 +52,8 @@
 	<div layout:fragment="content">
 	
 		
-					<img alt="번개만남 이미지" src="/images/번개만남.png">
-					<p class="text-middle">새로운 인연과 멋진 추억을 만들어보세요!	</p>
+					<img alt="일정공유 헤더 이미지" src="/images/일정공유.png">
+					<p class="text-middle">여러분의 취향에 맞춘 일정을 공유해주세요!	</p>
 					
 			<section class="wrapper style4 container">
 
@@ -62,7 +62,7 @@
 						<div class="panel-body pull-right">
 							<h3>
 								<a class="label label-default, button primary" id="button-board"
-									th:href="@{/boards/register}">글쓰기</a>
+									th:href="@{/boards2/register}">글쓰기</a>
 							</h3>
 						</div>
 
@@ -81,11 +81,11 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="odd gradeX" th:each="board:${result.content}">
-											<td style="font-size: 15px;">[[${board.bno}]]</td>
-											<td><a th:bno='${board.bno}' class='boardLink'>[[${board.title}]]</a></td>
-											<td>[[${board.writer}]]</td>
-											<td class="center">[[${#dates.format(board.regDate,	'yyyy-MM-dd')}]]</td>
+										<tr class="odd gradeX" th:each="itineraryBoard:${result.content}">
+											<td style="font-size: 15px;">[[${itineraryBoard.bno}]]</td>
+											<td><a th:bno='${itineraryBoard.bno}' class='boardLink'>[[${itineraryBoard.title}]]</a></td>
+											<td>[[${itineraryBoard.writer}]]</td>
+											<td class="center">[[${#dates.format(itineraryBoard.regDate,	'yyyy-MM-dd')}]]</td>
 										</tr>
 									</tbody>
 								</table>
