@@ -11,20 +11,20 @@
 					<h1 id="logo"><a href="../index">Jeju <span>DoJang</span></a></h1>
 					<nav id="nav">
 						<ul>
-							<li class="current"><a href="../index">HOME</a></li>
+							<li class="current"><a th:href="@{/index}">HOME</a></li>
 							<li class="submenu">
 								<a href="#">menu</a>
 								<ul>
 									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
 									<li>
-										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" href="/api/mypage">MyPage</a>
-										<a th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</a>
+										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" th:href="@{/api/mypage}">MyPage</a>
+										<div id="mypagelogin" th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</div>
 									</li>
 									
 									<li class="submenu">
 										<a href="#">게시판</a>
 										<ul>
-											<li><a href="../boards/list">번개 만남</a></li>
+											<li><a th:href="@{/boards/list}">번개 만남</a></li>
 											<li><a href="#">일정 공유</a></li>
 										</ul>
 									</li>
