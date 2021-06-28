@@ -17,8 +17,8 @@
 								<ul>
 									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
 									<li>
-										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" href="/api/mypage">MyPage</a>
-										<a th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</a>
+										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" th:href="@{/api/mypage}">MyPage</a>
+										<div id="mypagelogin" th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</div>
 									</li>
 									
 									<li class="submenu">

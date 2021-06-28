@@ -101,7 +101,7 @@ width:400px;
 					<div class="col-md-6">
 						<div class="pull-right">
 							<!-- <label for="itineraryName">여행 기간</label> -->
-							<input type="hidden" id="itineraryDate" name="itineraryDate" required="required"><br>
+							<input type="text" id="itineraryDate" name="itineraryDate" required="required"><br>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -203,9 +203,10 @@ width:400px;
 			function selectFriend(elt){
 				$("#find-friends").val("");
 				var deleteIcon = "/images/icon/x-mark.png";
-				
+				//배열에 추가
 				friendArr.push(elt.email);
 				$("#friendlist").val(friendArr);
+				//화면에 출력
 				if(elt.picture == null) {
 					elt.picture = "/images/icon/search.png";
 				}

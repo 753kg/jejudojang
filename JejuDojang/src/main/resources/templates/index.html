@@ -12,16 +12,21 @@
 		<link rel="stylesheet" th:href="@{/css/main.css}" />
 		<link rel="stylesheet" th:href="@{/css/login.css}" />
 		<noscript><link rel="stylesheet" th:href="@{/css/noscript.css}" /></noscript>
-	
-	<style type="text/css">
-	#main-button:hover{
-	color:gray;
-	}
-	#main-header-button{
-	border:none !important;
-	}
-	</style>
-	
+		<style>
+			#mypagelogin {
+				padding-left: 12px;
+			}
+			#mypagelogin:hover {
+				background-color: #F79F57;
+				color: white;
+			}
+      #main-button:hover{
+      color:gray;
+      }
+      #main-header-button{
+      border:none !important;
+      }
+    </style>
 	</head>
 	
 	<body class="index is-preload">
@@ -44,7 +49,7 @@
 									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
 									<li>
 										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" href="/api/mypage">MyPage</a>
-										<a th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</a>
+										<div id="mypagelogin" th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</div>
 									</li>
 									<li class="submenu">
 										<a href="#">게시판</a>
@@ -149,11 +154,6 @@
 			<script th:src="@{/js/util.js}"></script>
 			<script th:src="@{/js/main.js}"></script>
 			
-			<script>
-				$(".mypage-atag").click(function(e) {
-					e.preventDefault();
-				});
-			</script>
 
 	</body>
 </html>
