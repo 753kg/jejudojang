@@ -47,11 +47,11 @@ public class StyleSelectController {
 	private final TourLikeService tourLikeService;
 	private final ObjectMapper mapper;
 	
-	@GetMapping("/itinerary")
-	public String with(Model model, @LoginUser SessionUser user) throws JsonProcessingException {
+	@GetMapping("/itinerary/with")
+	public void with(Model model, @LoginUser SessionUser user) throws JsonProcessingException {
 		String userinfo = mapper.writeValueAsString(user);
 		model.addAttribute("userinfo", userinfo);
-		return "/itinerary/with";
+		//return "/itinerary/with";
 	}
 	
 	@GetMapping("/itinerary/findFriends/{keyword}")
