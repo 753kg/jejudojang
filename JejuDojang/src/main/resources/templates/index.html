@@ -46,7 +46,7 @@
 							<li class="submenu">
 								<a href="#" id="main-header-button">menu</a>
 								<ul>
-									<li><a th:href="@{/itinerary}">일정 짜기</a></li>
+									<li><a th:href="@{itinerary}">일정 짜기</a></li>
 									<li>
 										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" href="/api/mypage">MyPage</a>
 										<div id="mypagelogin" th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</div>
@@ -104,7 +104,7 @@
 						<br />
 						여행 일정 정리는 물론, 장소 추천까지 한 번에 받아보세요!
 						</p>
-						<a th:href="@{/itinerary}">&gt&gt 일정 짜러 가기</a>
+						<a th:href="@{itinerary}">&gt&gt 일정 짜러 가기</a>
 					</header>
 
 					<!-- 미리보기 화면 넣기 -->
