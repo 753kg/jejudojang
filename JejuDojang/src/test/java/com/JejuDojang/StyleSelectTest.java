@@ -49,6 +49,7 @@ public class StyleSelectTest {
 	@Autowired
 	GroupMemberService groupMemberService;
 	
+	/*
 	@Test
 	public void getMemberByPlace() {
 		List<MembersVO> members = new ArrayList<>();
@@ -56,6 +57,7 @@ public class StyleSelectTest {
 			log.info(Arrays.toString(obj));
 		});
 	}
+	*/
 	
 	/*
 	@Test
