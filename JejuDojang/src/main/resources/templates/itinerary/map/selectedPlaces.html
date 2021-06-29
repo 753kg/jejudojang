@@ -186,7 +186,6 @@ text-align: left;
                         let infowindow = [];
 
                         (function(j) {
-                           //    var iwContent = '<div style="padding:5px;"><a>'+ positions[j].title+'</a><br><a class="places" id = "'+positions[j].contentid+'" name="'+positions[j].title+'" onclick="select(this.id, this.name)" style="color:blue" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/.Hello World!,'+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none;" target="_blank" >길찾기</a></div>', 
                            var iwContent = '<div style="padding:5px; width:200px; height:100px; "><a style="font-size: 15px; color:black; font-family: GmarketSansBold; color:#3F7194;">'
                                  + positions[j].title
                                  + '</a><br><a class="places" id = "'
@@ -241,10 +240,13 @@ text-align: left;
                      url : '/insertPlaces/' + group_id,
                      dataType : 'text',
                      success : function(data) {
-                    	 
-                        if (data == "true") {
-                           var newList = "<div class='selected-schedule-one text-center'>";
-                       		newList += "<span cid='" + contentid +"'> " + title + " </span>";
+                  		 console.log(data);
+                		 console.log(typeof(data));
+                    	 if(data == "true"){
+                    		 console.log("이미선택한장소");
+                    		 alert('이미 선택한 장소입니다.');
+                    	 }else {
+                           var newList = "<div class='selected-schedule-one text-center'>";                     		newList += "<span cid='" + contentid +"'> " + title + " </span>";
                            newList += "</div>";
                            $newList = $(newList);
                            $newBtn = $("<button id='delete-button'>삭제</button>");
@@ -260,19 +262,14 @@ text-align: left;
 								let cid = $(element).children("span").attr("cid");
 								
 								if(cid == contentid) {
-									alert('이미 선택한 장소입니다.')
+								//	alert('이미 선택한 장소입니다.')
 									isOverlap = true;
 								} 
 							});
-							console.log(isOverlap);
 							if(!isOverlap){
 								$("#addplace").append($newList);
 								alert('일정에 추가하였습니다.')
 							}
-							
-							console.log(contentid);
-
-
                            function remove(contentid) {
                               $.ajax({
                                  url : '/deletePlaces',

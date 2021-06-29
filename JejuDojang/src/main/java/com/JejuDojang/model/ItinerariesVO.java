@@ -23,6 +23,7 @@ import lombok.ToString;
 @Table(name="itineraries")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ItinerariesVO {
 
 	@Id

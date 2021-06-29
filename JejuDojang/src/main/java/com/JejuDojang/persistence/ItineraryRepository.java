@@ -28,10 +28,10 @@ public interface ItineraryRepository extends CrudRepository<ItinerariesVO, Long>
 	public void deleteByContentid(Long contentid, String group_id);
 	
 	
-	@Query(value="select jt \r\n"
-			+ "from JejuTourListVO jt \r\n"
-			+ "left join ItinerariesVO i \r\n"
-			+ "on i.contentid = jt.contentid \r\n"
+	@Query(value="select jt "
+			+ "from JejuTourListVO jt "
+			+ "left join ItinerariesVO i "
+			+ "on i.contentid = jt.contentid "
 			+ "where i.group_id =?1")
 	public List<JejuTourListVO> selectItineraryAfterMap(String group_id); 
 	
@@ -41,6 +41,12 @@ public interface ItineraryRepository extends CrudRepository<ItinerariesVO, Long>
 	public void updateSchedule(Double schedule,Long contentid,String group_id);
 	
 	@Query(value = "select i.schedule,jt.firstimage,jt.title,i.group_id,jt.contentid from itineraries i join jeju_tourlists jt on i.contentid=jt.contentid where group_id = ?1",nativeQuery = true)
-	public List<Object[]> selectRetrieve(String group_id); 
+	public List<Object[]> selectRetrieve(String group_id);
+
+	//중복체크 
+	@Query(value = "select i "
+			+ "from ItinerariesVO i "
+			+ "where i.contentid = ?1 and i.group_id = ?2 ")
+	public List<ItinerariesVO> checkDuplicated(Long contentid, String group_id); 
 
 }
