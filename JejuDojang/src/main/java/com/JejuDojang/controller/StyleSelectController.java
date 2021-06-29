@@ -46,9 +46,6 @@ public class StyleSelectController {
 	private final GroupService groupService;
 	private final TourLikeService tourLikeService;
 	private final ObjectMapper mapper;
-	private final JavaMailSender javaMailSender;
-	private final SpringTemplateEngine templateEngine;
-	
 	
 	@GetMapping("/itinerary")
 	public String with(Model model, @LoginUser SessionUser user) throws JsonProcessingException {
@@ -62,43 +59,12 @@ public class StyleSelectController {
 	public List<MembersVO> getUsers(@PathVariable String keyword) {
 		return memberService.getUsers(keyword);
 	}
-	
 	@GetMapping("/itinerary/makegroup")
 	public String makeGroup(String itineraryName, String itineraryDate, String[] friendlist,
 			@LoginUser SessionUser user, HttpSession httpSession, RedirectAttributes rttr) throws MessagingException, IOException {
 		
 		String groupid = System.currentTimeMillis() + "";
-		String[] dates = itineraryDate.split(" to ");
-		Date start_day = null;
-		Date end_day = null;
-		if(!"".equals(dates[0])) {
-			start_day = Date.valueOf(dates[0]);
-			end_day = Date.valueOf(dates[0]);
-			if(dates.length == 2) {
-				end_day = Date.valueOf(dates[1]);
-			}
-		}
-		
-		// 1. 세션유저가 null --> guest계정생성
-		if(user == null) {
-			MembersVO guest = memberService.makeGuestId();
-			user = new SessionUser(guest);
-			httpSession.setAttribute("user", user);
-		}
-		
-		if(user != null) {
-			String hostName = user.getName();
-			// 1. 그룹 insert , groupmember에 본인 inert
-			groupService.saveGroup(groupid, itineraryName ,user.getEmail(), start_day, end_day);
-			
-			// 2. USER권한일때 친구를 초대했으면 groupmember에 친구들 insert
-			if(user.getRole() == MemberRole.USER) {
-				if(friendlist.length != 0) {
-					groupService.inviteFriend(groupid, friendlist);
-					sendMail(friendlist, groupid, hostName);
-				}
-			}
-		}
+		groupService.makeGroup(groupid, itineraryName, itineraryDate, friendlist, user);
 		
 		rttr.addAttribute("groupid", groupid);
 		return "redirect:/itinerary/style";
@@ -125,23 +91,6 @@ public class StyleSelectController {
 	public void retrieveOurFavorite(Model model, @RequestParam String groupid) {
 		model.addAttribute("groupid", groupid);
 		model.addAttribute("tags", tourLikeService.getTagsByGroupId(groupid));
-	}
-	
-	public void sendMail(String[] friendEmail, String groupid, String hostName) throws MessagingException, IOException {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message, true);
-		
-		helper.setSubject("[제주도장깨기] 떠나요 제주도 모든걸 털어버리고 ");
-		helper.setTo(friendEmail);
-		
-		Context context = new Context();
-		context.setVariable("groupid", groupid);
-		context.setVariable("hostName", hostName);
-		
-		String html = templateEngine.process("mail-template", context);
-		helper.setText(html, true);
-		
-		javaMailSender.send(message);
 	}
 	
 }

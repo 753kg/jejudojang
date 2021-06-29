@@ -178,7 +178,7 @@ width:400px;
 				}
 				console.log(responseData);
 				$.each(responseData, function(i, elt) {
-					//if(elt.email == user.email) return true;	// continue
+					if(elt.email == user.email) return true;	// continue
 					
 					var str = "<li class='dropdown-item'>";
 					if(elt.picture == null) {
