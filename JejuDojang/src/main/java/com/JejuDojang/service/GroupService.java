@@ -117,7 +117,7 @@ public class GroupService {
 			if(user.getRole() == MemberRole.USER) {
 				if(friendlist.length != 0) {
 					inviteFriend(groupid, friendlist);
-					sendMail(friendlist, groupid, hostName);
+					//sendMail(friendlist, groupid, hostName);
 				}
 			}
 		}
