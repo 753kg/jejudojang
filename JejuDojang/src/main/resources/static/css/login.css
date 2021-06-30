@@ -31,6 +31,14 @@
 	font-size: 0.8em;
 	line-height: 1.5em;
 }
+#mypagelogin {
+	padding-left: 12px;
+}
+#mypagelogin:hover {
+	background-color: #F79F57;
+	color: white;
+	cursor: pointer;
+}
 /*
 .btn-area {
 	margin-top: 10%;

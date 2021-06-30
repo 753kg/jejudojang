@@ -153,7 +153,7 @@ width:400px;
 			var user = JSON.parse($("#userinfo").val());
 			console.log(user);
 			if(user != null && user.role == "USER"){
-				$(".inform").text("일정 불러오기: 마이페이지 > 일정")
+				$(".inform").html("일정 만들기를 시작합니다!<br>여행 이름과 기간을 설정해주세요.<br>친구를 초대하면 일정을 함께 만들 수 있어요.")
 			}else{
 				$(".inform").text("일정을 저장하려면 로그인하세요!")
 				$("#find-friends").click(function(){
