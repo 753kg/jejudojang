@@ -7,20 +7,54 @@
 <title>마이페이지</title>
 <th:block layout:fragment="style1">
 <style type="text/css">
-	#title-font{
-	font-size:40px; font-family: 'GmarketSansBold'; color: white;text-align: center;
-	margin-top: 50px;
-	}
-	#span-font{font-family: 'GmarketSansBold';}
-	#day-font{
-	font-size:30px; font-family: 'GmarketSansBold'; color: #F58220;text-align: center;
-	margin-top: 50px;
-	}
-	#text-style{
-	line-height: 140px;
-	font-family: 'IBMPlexSansKR-Light'; font-size: 20px; color:white;font-weight: bold; text-align: center;
-	background-color: #3F7194;
-	}
+#likesBox{
+height:600px;
+position: fixed;
+left:100px;
+top:500px;
+padding: 0 20px 50px 20px;
+background-color: #3F7194;
+overflow:scroll;
+width:300px;
+ }
+#title-font{
+font-size:40px; font-family: 'GmarketSansBold'; color: white;
+margin-top: 50px;
+text-align: center;
+}
+#span-font{
+font-family: 'GmarketSansBold';
+}
+#day-font{
+font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
+margin-top: 50px;
+text-align: center;
+}
+#double-font{
+font-size:25px; font-family: 'GmarketSansBold';  color: white;
+text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+text-align: center;
+line-height: 100px;
+}
+.place-picture{
+width:100%; height:100px;
+margin: 20px 0 20px 0;
+}
+#save-button{
+height:70px;
+position: fixed;
+left:100px;
+top:400px;
+font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
+    min-width: 300px;
+    padding: 0;
+    line-height: 70px;
+    width:300px;
+}
+.btn-modify {
+	height: 50px;
+	line-height: 50px;
+}
 </style>
 </head>
 
@@ -34,7 +68,7 @@
 			<div class="panel-body>">
 				<!-- 여기에 내용 작성하세용-->
 				<div class="row" >
-					<a th:href="@{/api/itineraries(group_id=${groupid})}">일정 수정하기</a>
+					<a th:href="@{/api/itineraries(group_id=${groupid})}" class="button btn-modify">일정 수정하기</a>
 					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
                   		<p id="day-font">day<span id="span-font">[[${num}]]</span></p>
                   		<div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:330px; height:1200px;">
@@ -51,9 +85,6 @@
 					
 				</div>
 			</div>
-		</div>
-		</div>
-		</div>
 		</section>
 	</div>
 		
