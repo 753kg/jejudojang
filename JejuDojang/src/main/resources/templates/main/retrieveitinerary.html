@@ -69,7 +69,7 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 			<div class="panel-body>">
 				<!-- 여기에 내용 작성하세용-->
 				<div class="row" >
-				
+					<a th:href="@{/api/itineraries(group_id=${groupid})}">일정 수정하기</a>
 					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
                   		<p id="day-font">day<span id="span-font">[[${num}]]</span></p>
                   		<div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:330px; height:1200px;">
@@ -120,7 +120,11 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 			var a = mypages[z]["schedule"].substring(0,1);
 			var b = mypages[z]["schedule"].substring(2,3);
 			console.log(a + ":" + b);
-			$(`div#day${a} div#plan${b}`).html("<div>" + mypages[z]["title"]+"</div>");
+			var str = "<div aa='" + mypages[z]["contentid"] + "' id='tour" + (z+100) + "' class='place-picture' style='background-image: url(" + mypages[z]["firstimage"] + ")'>"
+			str += "<div id='double-font'>" + mypages[z]["title"]+"</div>";
+			str += "</div>";
+			
+			$(`div#day${a} div#plan${b}`).html(str);
 		}
 		 
 		$("#day1 > .box").html(s);

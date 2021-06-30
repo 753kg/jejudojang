@@ -73,29 +73,34 @@ margin-top:100px;
 			<div class="panel-body>">
 				<!-- 여기에 내용 작성하세용-->
 				<div></div>
-				<div class="row" >
-				
-				 <button onclick="save()" id="save-button">일정 저장</button>
-					<div id="likesBox" ondrop="drop(event)" ondragover="allowDrop(event)" >
-						 <p id="title-font">선택된 장소</p>
-						<div th:each="it, i : ${itinerary}" >
-							<div  th:aa="${it.contentid}" th:id="${'tour' + i.index}"  draggable="true" ondragstart="drag(event)" th:class="place-picture" th:style="'background-image: url(' + ${it.firstimage} + '); '">
-								<div th:text="${it.title}" id="double-font">[[${it.title}]]</div>
+				<div class="row">
+
+					<button onclick="save()" id="save-button">일정 저장</button>
+					<div id="likesBox" ondrop="drop(event)"
+						ondragover="allowDrop(event)">
+						<p id="title-font">선택된 장소</p>
+						<div th:each="it, i : ${itinerary}">
+							<div th:aa="${it.contentid}" th:id="${'tour' + i.index}" draggable="true" ondragstart="drag(event)" th:class="place-picture" th:style="'background-image: url(' + ${it.firstimage} + '); '">
+								<div th:text="${it.title}" id="double-font"></div>
 							</div>
 						</div>
 					</div>
-					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
-                  <p id="day-font">day<span id="span-font">[[${num}]]</span></p>
-                  <div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:330px; height:1200px;">
-                     <div th:each="count:${#numbers.sequence(1,9)}">
-                        <div th:order="${count}" th:id="'plan'+${count}" ondrop="drop(event)" ondragover="allowDrop(event)" style="border:solid 1px lightgray; height: 140px; width:370px;"></div>
+					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">
+						<p id="day-font">
+							day<span id="span-font">[[${num}]]</span>
+						</p>
+						<div th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width: 330px; height: 1200px;">
+							<div th:each="count:${#numbers.sequence(1,9)}">
+								<div th:order="${count}" th:id="'plan'+${count}" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: solid 1px lightgray; height: 140px; width: 370px;">
+									
+								</div>
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
-				
-				
+
+
 			</div>
 			<div class="text-center">
 			<button onclick="save()" id="save-button2" >일정 저장</button>
@@ -109,7 +114,33 @@ margin-top:100px;
 
 
 	<th:block layout:fragment="script">
-	<script>
+	<script th:inline="javascript">
+		var mypages =[[${mypages}]];
+		console.log(mypages);
+		
+		for(let z=0; z<mypages.length; z++){
+			console.log(mypages[z]["schedule"]);  
+			var a = mypages[z]["schedule"].substring(0,1);
+			var b = mypages[z]["schedule"].substring(2,3);
+			console.log(a + ":" + b);
+			
+			var fixedcontentid = mypages[z]["contentid"];
+			
+			if(mypages[z]["schedule"] != "0.0"){
+				$(".place-picture").each(function(i, element) {
+					if($(element).attr("aa") == fixedcontentid) {
+						$(element).remove();
+					}
+				})
+			}
+			
+			var str = "<div aa='" + fixedcontentid + "' id='tour" + (z+100) + "' draggable='true' ondragstart='drag(event)' class='place-picture' style='background-image: url(" + mypages[z]["firstimage"] + ")'>"
+			str += "<div id='double-font'>" + mypages[z]["title"]+"</div>";
+			str += "</div>";
+			
+			$(`div#day${a} div#plan${b}`).html(str);
+		}
+	
 		function allowDrop(ev) {
   			ev.preventDefault();
 		}
@@ -125,16 +156,30 @@ margin-top:100px;
 		}
 		
 		function save(){
-		$("div.daycontainer > div").each(function(i, element) {
-            var day = parseInt($(element).attr("order"));
-            
-            $(element).children("div").children("div").each(function(i2, e2) {
-               var index = $(e2).attr("order");
-               var contentid = $(e2).children("div").attr("aa");
-               var schedule = index * 0.1 + day;
-               
-               if(contentid != null){
-                  $.ajax({
+			$("div.daycontainer > div").each(function(i, element) {
+	            var day = parseInt($(element).attr("order"));
+	            
+	            $(element).children("div").children("div").each(function(i2, e2) {
+	               var index = $(e2).attr("order");
+	               var contentid = $(e2).children("div").attr("aa");
+	               var schedule = index * 0.1 + day;
+	               updateItineraries(schedule, contentid);
+	            });
+	            
+	         });
+			
+			$("#likesBox div").each(function(i, element) {
+				var unselected_contentid = $(element).attr("aa");
+				var unselected_schedule = 0;
+				updateItineraries(unselected_schedule, unselected_contentid);
+			});
+		
+			location.href = "../../retrieveMarker?groupid=" + [[${groupid}]];
+		}
+		
+		function updateItineraries(schedule, contentid){
+			if(contentid != null) {
+				$.ajax({
                      url:'/api/updateschedule',
                      data:{
                         "schedule":schedule,
@@ -145,11 +190,7 @@ margin-top:100px;
                         //alert(data==1?'업데이트 성공':'업데이트 실패');
                      }
                   });
-               }
-            });
-         });
-		
-		location.href = "../../retrieveMarker?groupid=" + [[${groupid}]];
+			}
 		}
 		</script>
 	</th:block>
