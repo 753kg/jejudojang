@@ -39,9 +39,10 @@ public class ReactController {
 	@GetMapping("/itineraries")
 	public String getTourLikesTitle(Model model,@RequestParam String group_id) {
 		
+		List<MypageVO> mypages = itineraryService.getMypageVO(group_id);
+		model.addAttribute("mypages",mypages);
 	
 		model.addAttribute("itinerary",itineraryService.selectItineraryAfterMap(group_id));
-		
 		model.addAttribute("days", groupsService.findGroupDays(group_id));
 		model.addAttribute("groupid", group_id);
 		return "itinerary/plan/fixingitineraries";
@@ -71,6 +72,7 @@ public class ReactController {
 		System.out.println("mypages : "+mypages);
 		model.addAttribute("mypages",mypages);
 		model.addAttribute("days", groupsService.findGroupDays(group_id));
+		model.addAttribute("groupid", group_id);
 		return "main/retrieveitinerary";
 	}
 }

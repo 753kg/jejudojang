@@ -43,4 +43,8 @@ public interface TourLikeRepository extends JpaRepository<TourLikesVO, TourLikes
 	         + "on tl.tourlist = jt.contentid "
 	         + "where tl.group =?1 ")
 	public List<JejuTourListVO> selectMapInfo(GroupsVO groupId);
+	 
+	// 몇명의 친구들이 스타일을 골랐는지
+	 @Query("select count(distinct tl.member) from TourLikesVO tl where tl.group = ?1")
+	 public int howManySelectedStyle(GroupsVO group);
 }

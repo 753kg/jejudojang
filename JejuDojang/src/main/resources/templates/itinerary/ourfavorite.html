@@ -26,6 +26,24 @@
 	color: black;
 	font-family: 'GmarketSansBold';
 }
+#goNext {
+	top: 10%;
+}
+.btn-in-modal {
+	min-width: 1em;
+	width: 45% !important;
+}
+.select-info{
+	margin: 0;
+}
+.select-info-mypage{
+	display: inline-block;
+	margin-top: 5%;
+	font-size: 0.9em;
+}
+.select-info-footer {
+	margin-bottom: 10%;
+}
 </style>
 </head>
 <body class="no-sidebar is-preload">
@@ -75,8 +93,38 @@
 				<div class="row">
 					<div class="prev-next-btn col-xs-12 text-center">
 						<a th:href="@{/itinerary/style(groupid=${groupid})}" class="btn-prev button">뒤로</a>
-						<a th:href="@{/selectedPlaces(groupid=${groupid})}" class="btn-next button">다음</a>
+						<th:block th:if="${session.user != null && #strings.equals(session.user.role, 'USER') && (totalGroupMemberCount > 1)}">
+							<span data-toggle="modal" data-target="#goNext" class="btn-next button">다음</span>
+						</th:block>
+						<th:block th:unless="${session.user != null && #strings.equals(session.user.role, 'USER') && (totalGroupMemberCount > 1)}">
+							<a th:href="@{/selectedPlaces(groupid=${groupid})}" class="btn-next button">다음</a>
+						</th:block>
 					</div>
+				</div>
+				
+				<!--/* Modal */-->
+				<div class="modal fade bs-example-modal-sm" id="goNext" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog modal-sm">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <span class="close text-right" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</span>
+				      </div>
+				      <div class="modal-body text-center">
+				      	<h1 id="modal-logo" class="text-center"><span>Jeju</span> DoJang</h1>
+				        <p class="select-info" th:text="${currentGroupMemberCount + '/' + totalGroupMemberCount} + '명이 선택을 완료했습니다.'"></p>
+				        <p class="select-info">다음 단계로 이동하시겠습니까?</p>
+				        <a class="select-info-mypage" th:href="@{/api/mypage}">마이페이지로 이동하기</a>
+				      </div>
+				      <div class="modal-footer select-info-footer">
+				      	<div class="text-center">
+				        	<a class="button btn-in-modal" data-dismiss="modal">닫기</a>
+				        	<a th:href="@{/selectedPlaces(groupid=${groupid})}" class="btn-next button btn-in-modal">다음</a>
+				      	</div>
+				      </div>
+				    </div>
+				  </div>
 				</div>
 			</div>
 			</div>
@@ -196,6 +244,7 @@
 			});
 		});
 		$('.selected_tag').tooltip(); 
+		
 	</script>
 	
 </body>

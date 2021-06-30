@@ -24,8 +24,10 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.JejuDojang.config.auth.LoginUser;
 import com.JejuDojang.config.auth.dto.SessionUser;
+import com.JejuDojang.model.GroupsVO;
 import com.JejuDojang.model.MemberRole;
 import com.JejuDojang.model.MembersVO;
+import com.JejuDojang.service.GroupMemberService;
 import com.JejuDojang.service.GroupService;
 import com.JejuDojang.service.MemberService;
 import com.JejuDojang.service.TagService;
@@ -44,6 +46,7 @@ public class StyleSelectController {
 	private final TagService tagService;
 	private final MemberService memberService;
 	private final GroupService groupService;
+	private final GroupMemberService gmService;
 	private final TourLikeService tourLikeService;
 	private final ObjectMapper mapper;
 	
@@ -89,8 +92,12 @@ public class StyleSelectController {
 	
 	@GetMapping("/itinerary/ourfavorite")
 	public void retrieveOurFavorite(Model model, @RequestParam String groupid) {
+		GroupsVO group = groupService.findById(groupid);
 		model.addAttribute("groupid", groupid);
 		model.addAttribute("tags", tourLikeService.getTagsByGroupId(groupid));
+		model.addAttribute("totalGroupMemberCount", gmService.getTotalGroupMemberCount(group));
+		model.addAttribute("currentGroupMemberCount", tourLikeService.getCurrentGroupMemberCount(group));
+		
 	}
 	
 }
