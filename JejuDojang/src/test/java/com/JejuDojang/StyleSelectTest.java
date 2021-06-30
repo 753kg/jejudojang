@@ -18,6 +18,7 @@ import com.JejuDojang.model.JejuTourListVO;
 import com.JejuDojang.model.LikeInfoDTO;
 import com.JejuDojang.model.MembersVO;
 import com.JejuDojang.model.TagsVO;
+import com.JejuDojang.persistence.GroupMemberRepository;
 import com.JejuDojang.persistence.GroupRepository;
 import com.JejuDojang.persistence.JejuTourListRepository;
 import com.JejuDojang.persistence.MemberRepository;
@@ -49,6 +50,18 @@ public class StyleSelectTest {
 	@Autowired
 	GroupMemberService groupMemberService;
 	
+	@Autowired
+	GroupMemberRepository gmRepo;
+	
+	@Test
+	public void howyoulikethat() {
+		GroupsVO group = groupRepo.findById("1624867468479").get();
+		int totalcount = gmRepo.totalGroupMemberCount(group);
+		int count = tourLikeRepo.howManySelectedStyle(group);
+		log.info("총 " + count + "/" + totalcount + " 명의 친구가 선택을 완료했습니다.");
+	}
+	
+	/*
 	@Test
 	public void getMemberByPlace() {
 		List<MembersVO> members = new ArrayList<>();
@@ -56,6 +69,7 @@ public class StyleSelectTest {
 			log.info(Arrays.toString(obj));
 		});
 	}
+	*/
 	
 	/*
 	@Test

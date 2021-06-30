@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.JejuDojang.model.GroupsVO;
 import com.JejuDojang.model.LikeInfoDTO;
 import com.JejuDojang.model.MemberRole;
 import com.JejuDojang.model.MembersVO;
@@ -98,6 +99,10 @@ public class TourLikeService {
 		});
 		
 		return likeinfolist;
+	}
+	
+	public int getCurrentGroupMemberCount(GroupsVO group) {
+		return repo.howManySelectedStyle(group);
 	}
 	
 }

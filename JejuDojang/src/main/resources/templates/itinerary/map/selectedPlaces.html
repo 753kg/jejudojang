@@ -117,10 +117,12 @@ text-align: left;
 
                <div id="map" style="width: 100%; height: 700px;"></div>
 	               <ul id="addplace">
-	               	<br>
-	                  <li class="hb" id="itinerary-title">추가한 일정</li>
 	                 <br>
-	               </ul>  
+	                  <li class="hb" id="itinerary-title">추가한 일정</li>
+	                  <div class='selected-schedule-one text-center' th:each="sp:${selectedplaces}">
+	                 	<span th:cid="${sp.contentid}">[[ ${sp.title} ]]</span>
+	                 </div>
+	               </ul>
 	               <div style="width:298px; margin: 0 auto;">
 	               
 	               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button" id="next-button">다음</a>
@@ -186,7 +188,6 @@ text-align: left;
                         let infowindow = [];
 
                         (function(j) {
-                           //    var iwContent = '<div style="padding:5px;"><a>'+ positions[j].title+'</a><br><a class="places" id = "'+positions[j].contentid+'" name="'+positions[j].title+'" onclick="select(this.id, this.name)" style="color:blue" target="_blank">일정에 추가</a> <a href="https://map.kakao.com/link/to/.Hello World!,'+positions[j].latlng.Ma+','+ positions[j].latlng.La+'" style="color:blue; text-decoration:none;" target="_blank" >길찾기</a></div>', 
                            var iwContent = '<div style="padding:5px; width:200px; height:100px; "><a style="font-size: 15px; color:black; font-family: GmarketSansBold; color:#3F7194;">'
                                  + positions[j].title
                                  + '</a><br><a class="places" id = "'
@@ -241,10 +242,13 @@ text-align: left;
                      url : '/insertPlaces/' + group_id,
                      dataType : 'text',
                      success : function(data) {
-                    	 
-                        if (data == "true") {
-                           var newList = "<div class='selected-schedule-one text-center'>";
-                       		newList += "<span cid='" + contentid +"'> " + title + " </span>";
+                  		 console.log(data);
+                		 console.log(typeof(data));
+                    	 if(data == "true"){
+                    		 console.log("이미선택한장소");
+                    		 alert('이미 선택한 장소입니다.');
+                    	 }else {
+                           var newList = "<div class='selected-schedule-one text-center'>";                     		newList += "<span cid='" + contentid +"'> " + title + " </span>";
                            newList += "</div>";
                            $newList = $(newList);
                            $newBtn = $("<button id='delete-button'>삭제</button>");
@@ -260,19 +264,14 @@ text-align: left;
 								let cid = $(element).children("span").attr("cid");
 								
 								if(cid == contentid) {
-									alert('이미 선택한 장소입니다.')
+								//	alert('이미 선택한 장소입니다.')
 									isOverlap = true;
 								} 
 							});
-							console.log(isOverlap);
 							if(!isOverlap){
 								$("#addplace").append($newList);
 								alert('일정에 추가하였습니다.')
 							}
-							
-							console.log(contentid);
-
-
                            function remove(contentid) {
                               $.ajax({
                                  url : '/deletePlaces',
@@ -301,6 +300,16 @@ text-align: left;
          // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
       </script>
    </th:block>
+  
+  <script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/jquery.dropotron.min.js}"></script>
+	<script th:src="@{/js/jquery.scrolly.min.js}"></script>
+	<script th:src="@{/js/jquery.scrollex.min.js}"></script>
+	<script th:src="@{/js/browser.min.js}"></script>
+	<script th:src="@{/js/breakpoints.min.js}"></script>
+	<script th:src="@{/js/util.js}"></script>
+	<script th:src="@{/js/main.js}"></script>		
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 
 
 </body>
