@@ -1,27 +1,33 @@
 package com.JejuDojang.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.JejuDojang.config.auth.LoginUser;
+import com.JejuDojang.config.auth.dto.SessionUser;
+import com.JejuDojang.model.GroupsVO;
 import com.JejuDojang.model.ItineraryBoard;
+import com.JejuDojang.model.MypageVO;
+import com.JejuDojang.persistence.GroupRepository;
 import com.JejuDojang.persistence.ItineraryBoardRepository;
+import com.JejuDojang.service.GroupService;
+import com.JejuDojang.service.ItineraryService;
+import com.JejuDojang.service.TourLikeService;
 import com.JejuDojang.vo.PageMaker;
 import com.JejuDojang.vo.PageVO;
 
 import lombok.extern.java.Log;
-import net.bytebuddy.build.HashCodeAndEqualsPlugin.ValueHandling.Sort;
 
 @Controller
 @RequestMapping("/boards2/")
@@ -30,15 +36,29 @@ public class ItineraryBoardController {
 
 
 	@Autowired
+	ItineraryService itineraryService;
+	@Autowired
+	GroupService groupsService;
+	@Autowired
 	private ItineraryBoardRepository repo;
 
+	@Autowired
+	private GroupRepository groupRepo;
+
+	@GetMapping("/shareItinerary")
+	public String retrieveitinerary( String group_id, Model model) {
+		List<MypageVO> mypages = itineraryService.getMypageVO(group_id);
+		System.out.println("mypages : "+mypages);
+		model.addAttribute("mypages",mypages);
+		model.addAttribute("days", groupsService.findGroupDays(group_id));
+		return "main/retrieveitinerary2";
+	}
 	
 	@GetMapping("/register")
-	public void registerGET(@ModelAttribute("vo")ItineraryBoard vo ){
+	public void registerGET(@ModelAttribute("vo")ItineraryBoard vo, @LoginUser SessionUser user, Model model ){
 		log.info("register get");
-		//vo.setTitle("샘플 게시물 제목입니다....");
-		//vo.setContent("내용을 처리해 봅니다 " );
-		//vo.setWriter("user00");
+		List<GroupsVO> groupList =  groupRepo.selectGroupsbyemail(user.getEmail());
+		model.addAttribute("groupList", groupList);
 	}
 	
 	@PostMapping("/register")

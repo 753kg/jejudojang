@@ -2,6 +2,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout1}">
 <head>
+<title>번개 만남</title>
 <style type="text/css">
 .form-control{
 border: none;}
@@ -53,17 +54,17 @@ float: right;}
 
 			<div class="form-group">
 				<label>내용</label>
-				<textarea id="board-content-box"  class="form-control" rows="3" name='content'
+				<textarea id="board-content-box"  class="form-control" rows="15" name='content'
 					th:text="${vo.content}"></textarea>
 					<p></p>
 			</div>
 
 			<div class="form-group">
 				<label>작성자</label> <input id="board-content-box" class="form-control" name="writer"
-					th:value="${vo.writer}" />
+					th:value="${session.user.name}" />
 			</div>
-			<button type="submit" class="btn-default">완료</button>
-			<button type="reset" class="btn-default">지우기</button>
+			<button type="submit" class="btn-default">업로드</button>
+			<button type="reset" class="btn-default">다시 쓰기</button>
 		</form>
 
 </div>

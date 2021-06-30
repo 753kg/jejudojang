@@ -37,6 +37,16 @@ color: white;
 padding: 5px;
 font-family: 'Lato', 'IBMPlexSansKR-Light';
 }
+#replies-table{
+margin-top: 100px;
+}
+#replies th{
+border: 1px solid white;
+background-color: lightgray;
+color: black;
+font-size:15px;
+text-align: center;
+}
 
 </style>
 
@@ -100,10 +110,10 @@ font-family: 'Lato', 'IBMPlexSansKR-Light';
 
 			</div>
 
-			<div class='container'>
-				<table class="table table-striped table-bordered table-hover">
+			<div class='container' id="replies">
+				<table class="table table-striped table-bordered table-hover" id="replies-table" >
 					<thead>
-						<tr>
+						<tr id="replies">
 							<th>NO</th>
 							<th>댓글</th>
 							<th>작성자</th>
