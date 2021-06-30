@@ -43,6 +43,7 @@ public class MapController {
 	public String selectedMapContent(@RequestParam String groupid, Model model) {
 		model.addAttribute("groupid", groupid);
 		System.out.println("groupid: " + groupid);
+		model.addAttribute("selectedplaces", itRepo.selectedMarker(groupid));
 		return "itinerary/map/selectedPlaces";
 	}
 	
