@@ -52,8 +52,12 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
     width:300px;
 }
 .btn-modify {
-	height: 50px;
-	line-height: 50px;
+ 	min-width: 150px;
+ 	height:150px; 
+ 	position:fixed; 
+ 	top:500px; 
+ 	right: 120px; 
+ 	line-height:150px;
 }
 </style>
 </head>
@@ -65,11 +69,12 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
 		<section class="wrapper style4 container">
 		
 			<!-- Content -->
-			<div class="panel-body>">
-				<!-- 여기에 내용 작성하세용-->
+			<div class="panel-body"> 
 				<div class="row" >
 					<a th:href="@{/api/itineraries(group_id=${groupid})}" class="button btn-modify">일정 수정하기</a>
-					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer">   
+				</div>
+				<div class="row" style="float">
+					<div th:each="num: ${#numbers.sequence(1,days)}" class="daycontainer" >   
                   		<p id="day-font">day<span id="span-font">[[${num}]]</span></p>
                   		<div  th:order="${num}" th:id="'day'+${num}" class="col-xs-5" style="width:330px; height:1200px;">
                      
@@ -77,13 +82,14 @@ font-size:30px; font-family: 'GmarketSansBold'; color: #3F7194;
                         	<div class="box" th:order="${count}" th:id="'plan'+${count}" style="border:solid 1px lightgray; height: 140px; width:330px;">
                         		
 
-							</div>
+							
                         	</div>
 						</div>
 						
 					</div>
 					
 				</div>
+			</div>
 			</div>
 		</section>
 	</div>
