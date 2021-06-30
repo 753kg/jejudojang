@@ -52,7 +52,7 @@ public class StyleSelectTest {
 	
 	@Autowired
 	GroupMemberRepository gmRepo;
-	
+	/*
 	@Test
 	public void howyoulikethat() {
 		GroupsVO group = groupRepo.findById("1624867468479").get();
@@ -60,7 +60,7 @@ public class StyleSelectTest {
 		int count = tourLikeRepo.howManySelectedStyle(group);
 		log.info("총 " + count + "/" + totalcount + " 명의 친구가 선택을 완료했습니다.");
 	}
-	
+	*/
 	/*
 	@Test
 	public void getMemberByPlace() {
