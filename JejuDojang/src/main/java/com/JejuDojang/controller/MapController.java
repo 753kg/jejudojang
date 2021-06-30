@@ -72,16 +72,19 @@ public class MapController {
 	//고른 장소 DB에 insert시키기 
 	@GetMapping("/insertPlaces/{group_id}")
 	@ResponseBody
-	public String selectedPlaces(Long contentid, @PathVariable String group_id) {
+	public Boolean selectedPlaces(Long contentid, @PathVariable String group_id) {
 		System.out.println("contentid : "+contentid);
 		System.out.println("groupid : "+group_id);
+		//중복 체크하기 
 		Long a= (long) 0;
 		ItinerariesVO itvo = new ItinerariesVO(a, group_id, contentid, 0.0);
-		if(itRepo.save(itvo)!=null) {
-			a++;
-			return "true";
+		System.out.println(itRepo.checkDuplicated(contentid, group_id));
+		if(itRepo.checkDuplicated(contentid, group_id).size() == 0) {
+			System.out.println("null...중복이 아니니까 인서트");
+			itRepo.save(itvo);
+			return false;
 		}else {
-			return "false";
+			return true;
 		}
 	}
 	
@@ -97,16 +100,4 @@ public class MapController {
 		}catch (Exception e) {}
 		return ret;
 	}
-	
-	
-	
-/*	
- * 태그 이미지 바꾸기..
-	@GetMapping("/tags/{title}")
-	public String tags(@PathVariable String title) {
-		System.out.println("이거야이거이억이어기어"+title);
-		return null;
-	}
-*/	
-	
 }
