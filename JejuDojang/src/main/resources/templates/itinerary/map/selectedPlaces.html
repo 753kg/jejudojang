@@ -21,7 +21,7 @@ ul {
 
 #delete-button {
    padding: 5px 0 5px 0 ;
-   background-color: darkgray;
+   background-color: #3F7194;
    color:white;
 }
 #main img{
@@ -38,6 +38,17 @@ ul {
 	min-width: 0;
 	line-height: 0;
 	border-radius: 10%;
+	
+}
+#delete-button2{
+	background-color:darkgray;
+	width:50px;
+	height:30px;
+	min-width: 0;
+	line-height: 0;
+	border-radius: 10%;
+	 padding: 5px 0 5px 0 ;
+   color:white;
 }
 .hb{
 	text-align: center;
@@ -117,10 +128,12 @@ text-align: left;
 
                <div id="map" style="width: 100%; height: 700px;"></div>
 	               <ul id="addplace">
-	                 <br>
+	               <br>
 	                  <li class="hb" id="itinerary-title">추가한 일정</li>
+	                 <br>
 	                  <div class='selected-schedule-one text-center' th:each="sp:${selectedplaces}">
 	                 	<span th:cid="${sp.contentid}">[[ ${sp.title} ]]</span>
+		                 <button id='delete-button2' disabled="disabled">삭제</button>
 	                 </div>
 	               </ul>
 	               <div style="width:298px; margin: 0 auto;">
