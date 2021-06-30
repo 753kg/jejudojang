@@ -2,6 +2,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout1}">
 <head>
+<title>일정 공유</title>
 <style type="text/css">
 .form-control{
 border: none;}
@@ -10,6 +11,8 @@ font-family: 'GmarketSansBold';
 font-size: 20px;
 color: #3F7194;}
 #board-content-box{
+border: 1px solid;}
+#board-content-box-title{
 border: 1px solid;}
 #addReplyBtn{
 float: right;
@@ -25,7 +28,27 @@ color: white;
 padding: 5px;
 font-family: 'Lato', 'IBMPlexSansKR-Light';
 float: right;}
+#groupName{
+width: 300px;
+}
+#searchBtn{
+height:38px;
+line-height: 38px;
+min-width: 50px;
+background-color: #3F7194;
+color: white;
+}
+#searchBtn:hover{
+height:38px;
+line-height: 38px;
+min-width: 50px;
+background-color: gray;
+color: white;
+}
 
+#itineraries{
+border: 1px solid lightgray;
+}
 
 </style>
 
@@ -46,24 +69,33 @@ float: right;}
 		<form th:action="@{register}" method="post">
 
 			<div class="form-group">
-				<label>제목</label> <input style="width: 100%;" id="board-content-box" class="form-control" name="title"
+				<label>제목</label> <input style="width: 100%;" id="board-content-box-title" class="form-control" name="title"
 					th:value="${vo.title}" />
 					<p></p>
 			</div>
 
 			<div class="form-group">
-				<label>내용</label>
-				<textarea id="board-content-box"  class="form-control" rows="3" name='content'
-					th:text="${vo.content}"></textarea>
+				<label>나의 일정 가져오기</label>
+				<br>
+				
+				<select id='groupName'>
+					<option th:each="group:${groupList}" th:value='${group.group_id}' th:text="${group.group_name}"></option>
+				</select>
+				<button type='button' id='searchBtn'>선택</button>
+				
+				<div id="itineraries"></div>
+				
+				<input type="text" id="board-content-box"  class="form-control" rows="3" name='content' placeholder="공유할 여행 일정을 선택해주세요.">
 					<p></p>
 			</div>
 
 			<div class="form-group">
-				<label>작성자</label> <input id="board-content-box" class="form-control" name="writer"
-					th:value="${vo.writer}" />
+				<label>작성자</label>	<input id="board-content-box" class="form-control" name="writer" th:value="${session.user.name}" />
 			</div>
-			<button type="submit" class="btn-default">완료</button>
-			<button type="reset" class="btn-default">지우기</button>
+			<button type="submit" class="btn-default">업로드</button>
+			<button type="reset" class="btn-default">다시 쓰기</button>
+			
+			
 		</form>
 
 </div>
@@ -75,7 +107,26 @@ float: right;}
 <th:block layout:fragment="script">
 
 	<script th:inline="javascript">
-
+	$("#searchBtn").click(function(e){
+		
+		var groupId = $("#groupName").find(":selected").val();
+		$("#board-content-box").val(groupId);
+		//console.log("vvvv"+$("#board-content-box").val());
+		$.ajax({
+			url: "shareItinerary?group_id=" +  groupId,
+			success: function(responseData){
+				$("#itineraries").html(responseData);
+				//console.log(responseData);
+			}
+		});
+		
+		console.log(groupId);
+		
+		/* formObj.find("[name='type']").val(typeStr);
+		formObj.find("[name='keyword']").val(keywordStr);
+		formObj.find("[name='page']").val("1");
+		formObj.submit(); */
+	});
 	</script>
 
 </th:block>

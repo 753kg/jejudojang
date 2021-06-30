@@ -4,31 +4,37 @@
      layout:decorate="~{fragments/layout1}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-
-
+<title>마이페이지</title>
 <th:block layout:fragment="style1">
 <style type="text/css">
 #boxes{
-border : solid 1px #3F7194; 
-padding: 50px 0px 20px 0px; 
+border : solid 1px lightgray; 
+padding: 50px 0px 50px 0px; 
 width:450px; 
 float:left; 
 margin-bottom: 60px; 
 margin-right: 60px; 
 margin-left:60px;
-background-color: #3F7194;
-color:white;
-}
-#date-style2{
-border: solid 1px white; background-color: white; display: inline; color: black;
-padding:5px;
+background-color: lightgray;
+color:black;
 }
 #date-style{
-color:white;
+color:black;
+margin-bottom: 10px;
+}
+#date-style2{
+color:black;
+margin-bottom: 25px;
 }
 #groupname{
-color: white; font-family: 'GmarketSansBold'; font-size: 35px;
+color:#3F7194; font-family: 'GmarketSansBold'; font-size: 35px;
+}
+#add-itinerary{
+color: #3F7194;
+
+}
+#date-text{
+font-weight: 900;
 }
 </style>
 </head>
@@ -47,12 +53,11 @@ color: white; font-family: 'GmarketSansBold'; font-size: 35px;
 					<div>
 						<div th:each="group, i : ${groups}" id="boxes">
 							<div style="text-align: center;">
-								<a th:href="${'../../api/retrieveitinerary/' + group.group_id}" id="groupname" >[[${group.group_name}]]</a>
+								<a th:href="${'../../api/retrieveitinerary?group_id=' + group.group_id}" id="groupname">[[${group.group_name}]]</a>
 								<p></p>
-								<p id="date-style" >여행 출발일 : [[${group.start_day}]]</p>
-								<p id="date-style" >여행 마지막일 : [[${group.end_day}]]</p>
-                <a th:href="${'../../api/retrieveitinerary?group_id=' + group.group_id}">테스트</a>
-								<a th:href="@{/itinerary/style(groupid=${group.group_id})}">스타일 고르러 가기</a>
+								<p id="date-style" ><span id="date-text">여행 출발일</span>    [[${group.start_day}]]</p>
+								<p id="date-style2" ><span id="date-text">여행 마지막일</span>    [[${group.end_day}]]</p>
+								<a th:href="@{/itinerary/style(groupid=${group.group_id})}" id="add-itinerary">일정 업데이트</a>
 							</div>
 							
 						</div>
