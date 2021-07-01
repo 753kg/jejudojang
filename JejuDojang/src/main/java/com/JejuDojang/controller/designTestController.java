@@ -21,6 +21,11 @@ public class designTestController {
 		return "index";
 	}
 	
+	@GetMapping("/mail")
+	public String mailTemplate() {
+		return "mail-template";
+	}
+	
 	
  
 

@@ -89,7 +89,7 @@ public class GroupService {
 	}
 	
 	public void makeGroup(String groupid, String itineraryName, String itineraryDate, 
-			String[] friendlist, SessionUser user) throws MessagingException, IOException {
+			String[] friendlist, SessionUser user) {
 		String[] dates = itineraryDate.split(" to ");
 		Date start_day = null;
 		Date end_day = null;
@@ -117,27 +117,34 @@ public class GroupService {
 			if(user.getRole() == MemberRole.USER) {
 				if(friendlist.length != 0) {
 					inviteFriend(groupid, friendlist);
-					//sendMail(friendlist, groupid, hostName);
+					sendMail(friendlist, groupid, hostName);
 				}
 			}
 		}
 	}
 	
-	public void sendMail(String[] friendEmail, String groupid, String hostName) throws MessagingException, IOException {
+	public void sendMail(String[] friendEmail, String groupid, String hostName) {
 		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+		MimeMessageHelper helper;
 		
-		helper.setSubject("[제주도장깨기] 떠나요 제주도 모든걸 털어버리고 ");
-		helper.setTo(friendEmail);
+		try {
+			helper = new MimeMessageHelper(message, true);
+			helper.setSubject("[제주도장깨기] 떠나요 제주도 모든걸 털어버리고 ");
+			helper.setTo(friendEmail);
+			
+			Context context = new Context();
+			context.setVariable("groupid", groupid);
+			context.setVariable("hostName", hostName);
+			
+			String html = templateEngine.process("mail-template", context);
+			helper.setText(html, true);
+			javaMailSender.send(message);
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 		
-		Context context = new Context();
-		context.setVariable("groupid", groupid);
-		context.setVariable("hostName", hostName);
 		
-		String html = templateEngine.process("mail-template", context);
-		helper.setText(html, true);
-		
-		javaMailSender.send(message);
 	}
 
 }
