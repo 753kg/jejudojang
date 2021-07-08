@@ -26,7 +26,7 @@ public class SecurityTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
+    //@Test
     public void index_user() throws Exception {
         mockMvc.perform(get("/styleSelect").with(user("ㅁㅁ").roles("USER")))
                 .andDo(print())
