@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.JejuDojang.model.ItinerariesVO;
 import com.JejuDojang.model.JejuTourListVO;
 import com.JejuDojang.model.MemberRole;
 import com.JejuDojang.model.MembersVO;
@@ -48,4 +49,21 @@ public class ItineraryService {
 	public List<Object[]> selectRetrieve(String group_id){
 		return repo.selectRetrieve(group_id);
 	}
+
+	public List<JejuTourListVO> selectedMarker(String groupid) {
+		return repo.selectedMarker(groupid);
+	}
+
+	public void save(ItinerariesVO itvo) {
+		repo.save(itvo);
+	}
+
+	public List<ItinerariesVO> checkDuplicated(Long contentid, String group_id) {
+		return repo.checkDuplicated(contentid, group_id);
+	}
+
+	public void deleteByContentid(Long contentid, String group_id) {
+		 repo.deleteByContentid(contentid, group_id);
+	}
+
 }

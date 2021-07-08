@@ -17,22 +17,29 @@ import com.JejuDojang.persistence.GroupRepository;
 import com.JejuDojang.persistence.ItineraryRepository;
 import com.JejuDojang.persistence.TagRepository;
 import com.JejuDojang.persistence.TourLikeRepository;
+import com.JejuDojang.service.GroupService;
+import com.JejuDojang.service.ItineraryService;
+import com.JejuDojang.service.TagService;
+import com.JejuDojang.service.TourLikeService;
 
 @Controller
 public class MapController {
 	
 	@Autowired
-	TourLikeRepository tourLikesRepo;
-		
-	@Autowired
-	GroupRepository groupRepo;
+//	TourLikeRepository tourLikesRepo;
+	TourLikeService tourService;
 	
 	@Autowired
-	ItineraryRepository itRepo;
+//	GroupRepository groupRepo;
+	GroupService groupService;
 	
 	@Autowired
-	TagRepository tagRepo;
+//	ItineraryRepository itRepo;
+	ItineraryService itService;
 	
+	@Autowired
+//	TagRepository tagRepo;
+	TagService t;
 	//백업용
 	@GetMapping("/test4")
 	public String testCon3() {
@@ -43,7 +50,7 @@ public class MapController {
 	public String selectedMapContent(@RequestParam String groupid, Model model) {
 		model.addAttribute("groupid", groupid);
 		System.out.println("groupid: " + groupid);
-		model.addAttribute("selectedplaces", itRepo.selectedMarker(groupid));
+		model.addAttribute("selectedplaces", itService.selectedMarker(groupid));
 		return "itinerary/map/selectedPlaces";
 	}
 	
@@ -58,15 +65,15 @@ public class MapController {
 	@ResponseBody
 	public List<JejuTourListVO> allMarker(@PathVariable String group_id ) {
 		System.out.println("좋아요 마커 표시 group_id : "+group_id);
-		GroupsVO g = groupRepo.findById(group_id).get();
-		return tourLikesRepo.selectMapInfo(g);
+		GroupsVO g = groupService.findById(group_id);
+		return tourService.selectMapInfo(g);
 	}
 	//최종 일정 마커 표 시 
 		@GetMapping("/itinerary/retrieveMarker/{group_id}")
 		@ResponseBody
 		public List<JejuTourListVO> retrieveMarker(@PathVariable String group_id){
 			System.out.println("group_id :"+group_id);
-			return itRepo.selectedMarker(group_id);
+			return itService.selectedMarker(group_id);
 		}
 	
 	//고른 장소 DB에 insert시키기 
@@ -78,10 +85,10 @@ public class MapController {
 		//중복 체크하기 
 		Long a= (long) 0;
 		ItinerariesVO itvo = new ItinerariesVO(a, group_id, contentid, 0.0);
-		System.out.println(itRepo.checkDuplicated(contentid, group_id));
-		if(itRepo.checkDuplicated(contentid, group_id).size() == 0) {
+		System.out.println(itService.checkDuplicated(contentid, group_id));
+		if(itService.checkDuplicated(contentid, group_id).size() == 0) {
 			System.out.println("null...중복이 아니니까 인서트");
-			itRepo.save(itvo);
+			itService.save(itvo);
 			return false;
 		}else {
 			return true;
@@ -95,7 +102,7 @@ public class MapController {
 		System.out.println("contentid : "+contentid+", group_id : "+group_id);
 		int ret = 0;
 		try {
-			itRepo.deleteByContentid(contentid, group_id);
+			itService.deleteByContentid(contentid, group_id);
 			ret = 1;
 		}catch (Exception e) {}
 		return ret;
