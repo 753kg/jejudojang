@@ -86,7 +86,6 @@ text-align: left;
 										<a th:if="${session.user != null && #strings.equals(session.user.role, 'USER')}" href="/api/mypage">MyPage</a>
 										<a th:unless="${session.user != null && #strings.equals(session.user.role, 'USER')}" data-toggle="modal" data-target="#myModal" href="#">MyPage</a>
 									</li>
-									
 									<li class="submenu">
 										<a href="#">게시판</a>
 										<ul>
@@ -137,9 +136,7 @@ text-align: left;
 	                 </div>
 	               </ul>
 	               <div style="width:298px; margin: 0 auto;">
-	               
 	               <a th:href="@{/api/itineraries(group_id=${groupid})}" class="btn-next button" id="next-button">다음</a>
-		            
 		            </div>
 		            </div>
 		         </div>
@@ -277,7 +274,6 @@ text-align: left;
 								let cid = $(element).children("span").attr("cid");
 								
 								if(cid == contentid) {
-								//	alert('이미 선택한 장소입니다.')
 									isOverlap = true;
 								} 
 							});
@@ -298,13 +294,9 @@ text-align: left;
                                           : "ERROR");
                                  }
                               });//ajax
-
                            }//remove
-
                         }//if
-
                      }//success
-
                   });//ajax
          }//function
 
