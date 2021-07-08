@@ -2,7 +2,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout1}">
 <head>
-<title>�씪�젙 怨듭쑀</title>
+<title>일정 공유</title>
 <style type="text/css">
 .form-control{
 border: none;}
@@ -55,8 +55,8 @@ border: 1px solid lightgray;
 </head>
 <div layout:fragment="content">
 
-			<img alt="�씪�젙怨듭쑀 �뿤�뜑 �씠誘몄�" src="/images/�씪�젙怨듭쑀.png">
-			<p class="text-middle">�뿬�윭遺꾩쓽 痍⑦뼢�뿉 留욎텣 �씪�젙�쓣 怨듭쑀�빐二쇱꽭�슂!	</p>
+			<img alt="일정공유 헤더 이미지" src="/images/일정공유.png">
+			<p class="text-middle">여러분의 취향에 맞춘 일정을 공유해주세요!</p>
 		
 		<section class="wrapper style4 container">
 
@@ -69,31 +69,31 @@ border: 1px solid lightgray;
 		<form th:action="@{register}" method="post">
 
 			<div class="form-group">
-				<label>�젣紐�</label> <input style="width: 100%;" id="board-content-box-title" class="form-control" name="title"
+				<label>제목</label> <input style="width: 100%;" id="board-content-box-title" class="form-control" name="title"
 					th:value="${vo.title}" />
 					<p></p>
 			</div>
 
 			<div class="form-group">
-				<label>�굹�쓽 �씪�젙 媛��졇�삤湲�</label>
+				<label>나의 일정 가져오기</label>
 				<br>
 				
 				<select id='groupName'>
 					<option th:each="group:${groupList}" th:value='${group.group_id}' th:text="${group.group_name}"></option>
 				</select>
-				<button type='button' id='searchBtn'>�꽑�깮</button>
+				<button type='button' id='searchBtn'>선택</button>
 				
 				<div id="itineraries"></div>
 				
-				<input type="hidden" id="board-content-box"  class="form-control" rows="3" name='content' placeholder="怨듭쑀�븷 �뿬�뻾 �씪�젙�쓣 �꽑�깮�빐二쇱꽭�슂.">
+				<input type="hidden" id="board-content-box"  class="form-control" rows="3" name='content' placeholder="공유할 여행 일정을 선택해주세요.">
 					<p></p>
 			</div>
 
 			<div class="form-group">
-				<label>�옉�꽦�옄</label>	<input id="board-content-box" class="form-control" name="writer" th:value="${session.user.name}" />
+				<label>작성자</label>	<input id="board-content-box" class="form-control" name="writer" th:value="${session.user.name}" />
 			</div>
-			<button type="submit" class="btn-default">�뾽濡쒕뱶</button>
-			<button type="reset" class="btn-default">�떎�떆 �벐湲�</button>
+			<button type="submit" class="btn-default">업로드</button>
+			<button type="reset" class="btn-default">다시 쓰기</button>
 			
 			
 		</form>
@@ -111,7 +111,7 @@ border: 1px solid lightgray;
 		
 		var groupId = $("#groupName").find(":selected").val();
 		$("#board-content-box").val(groupId);
-		console.log("vvvv"+$("#board-content-box").val());
+		//console.log("vvvv"+$("#board-content-box").val());
 		$.ajax({
 			url: "shareItinerary?group_id=" +  groupId,
 			success: function(responseData){
