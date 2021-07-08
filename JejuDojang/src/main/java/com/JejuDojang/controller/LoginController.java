@@ -25,7 +25,7 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String login() {
-		return "login/login";
+		return "main/loginpage";
 	}
 	
 	// 테스트
