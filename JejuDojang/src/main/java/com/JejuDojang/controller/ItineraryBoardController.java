@@ -22,6 +22,7 @@ import com.JejuDojang.model.MypageVO;
 import com.JejuDojang.persistence.GroupRepository;
 import com.JejuDojang.persistence.ItineraryBoardRepository;
 import com.JejuDojang.service.GroupService;
+import com.JejuDojang.service.ItineraryBoardService;
 import com.JejuDojang.service.ItineraryService;
 import com.JejuDojang.service.TourLikeService;
 import com.JejuDojang.vo.PageMaker;
@@ -40,13 +41,14 @@ public class ItineraryBoardController {
 	@Autowired
 	GroupService groupsService;
 	@Autowired
-	private ItineraryBoardRepository repo;
+	private ItineraryBoardService itineraryBoardService;
 
 	@Autowired
 	private GroupRepository groupRepo;
 
 	@GetMapping("/shareItinerary")
 	public String retrieveitinerary( String group_id, Model model) {
+		log.info("shareItinerary groupid>>" + group_id);
 		List<MypageVO> mypages = itineraryService.getMypageVO(group_id);
 		System.out.println("mypages : "+mypages);
 		model.addAttribute("mypages",mypages);
@@ -67,7 +69,7 @@ public class ItineraryBoardController {
 		log.info("register post");
 		log.info("" + vo);
 
-		repo.save(vo);
+		itineraryBoardService.save(vo);
 		rttr.addFlashAttribute("msg", "success");
 		
 		return "redirect:/boards2/list";
@@ -78,7 +80,7 @@ public class ItineraryBoardController {
 		
 		log.info("BNO: "+ bno);
 		
-		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
+		itineraryBoardService.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
 		
 	}
 		
@@ -87,7 +89,7 @@ public class ItineraryBoardController {
 		
 		log.info("MODIFY BNO: "+ bno);
 		
-		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
+		itineraryBoardService.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
 	}
 	
 	@PostMapping("/modify")
@@ -96,12 +98,12 @@ public class ItineraryBoardController {
 		log.info("Modify WebBoard: " + board);
 		
 		
-		repo.findById(board.getBno()).ifPresent( origin ->{
+		itineraryBoardService.findById(board.getBno()).ifPresent( origin ->{
 		 
 			origin.setTitle(board.getTitle());
 			origin.setContent(board.getContent());
 			
-			repo.save(origin);
+			itineraryBoardService.save(origin);
 			rttr.addFlashAttribute("msg", "success");
 			rttr.addAttribute("bno", origin.getBno());
 		});
@@ -121,7 +123,7 @@ public class ItineraryBoardController {
 		
 		log.info("DELETE BNO: " + bno);
 		
-		repo.deleteById(bno);
+		itineraryBoardService.deleteById(bno);
 		
 		rttr.addFlashAttribute("msg", "success");
 
@@ -166,8 +168,8 @@ public void list(@ModelAttribute("pageVO") PageVO vo, Model model//, Principal p
 	
 	Pageable page = vo.makePageable(0, "bno");
 	
-	Page<ItineraryBoard> result = repo.findAll(
-	repo.makePredicate(vo.getType(), vo.getKeyword()), page);
+	Page<ItineraryBoard> result = itineraryBoardService.findAll(
+			itineraryBoardService.makePredicate(vo.getType(), vo.getKeyword()), page);
 	
 	log.info(""+ page);
 	log.info(""+result);

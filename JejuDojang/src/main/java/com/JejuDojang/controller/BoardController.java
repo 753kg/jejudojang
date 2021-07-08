@@ -1,13 +1,8 @@
 package com.JejuDojang.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.JejuDojang.model.BoardVO;
-import com.JejuDojang.persistence.BoardRepository;
+import com.JejuDojang.service.BoardService;
 import com.JejuDojang.vo.PageMaker;
 import com.JejuDojang.vo.PageVO;
 
 import lombok.extern.java.Log;
-import net.bytebuddy.build.HashCodeAndEqualsPlugin.ValueHandling.Sort;
 
 @Controller
 @RequestMapping("/boards/") 
@@ -30,7 +25,7 @@ public class BoardController {
 
 
 	@Autowired
-	private BoardRepository repo;
+	private BoardService boardService;
 
 	
 	@GetMapping("/register")
@@ -47,7 +42,7 @@ public class BoardController {
 		log.info("register post");
 		log.info("" + vo);
 
-		repo.save(vo);
+		boardService.save(vo);
 		rttr.addFlashAttribute("msg", "success");
 		
 		return "redirect:/boards/list";
@@ -58,7 +53,7 @@ public class BoardController {
 		
 		log.info("BNO: "+ bno);
 		
-		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
+		boardService.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
 		
 	}
 		
@@ -67,7 +62,7 @@ public class BoardController {
 		
 		log.info("MODIFY BNO: "+ bno);
 		
-		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
+		boardService.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
 	}
 	
 	@PostMapping("/modify")
@@ -76,12 +71,12 @@ public class BoardController {
 		log.info("Modify WebBoard: " + board);
 		
 		
-		repo.findById(board.getBno()).ifPresent( origin ->{
+		boardService.findById(board.getBno()).ifPresent( origin ->{
 		 
 			origin.setTitle(board.getTitle());
 			origin.setContent(board.getContent());
 			
-			repo.save(origin);
+			boardService.save(origin);
 			rttr.addFlashAttribute("msg", "success");
 			rttr.addAttribute("bno", origin.getBno());
 		});
@@ -101,7 +96,7 @@ public class BoardController {
 		
 		log.info("DELETE BNO: " + bno);
 		
-		repo.deleteById(bno);
+		boardService.deleteById(bno);
 		
 		rttr.addFlashAttribute("msg", "success");
 
@@ -146,8 +141,8 @@ public void list(@ModelAttribute("pageVO") PageVO vo, Model model//, Principal p
 	
 	Pageable page = vo.makePageable(0, "bno");
 	
-	Page<BoardVO> result = repo.findAll(
-	repo.makePredicate(vo.getType(), vo.getKeyword()), page);
+	Page<BoardVO> result = boardService.findAll(
+			boardService.makePredicate(vo.getType(), vo.getKeyword()), page);
 	
 	log.info(""+ page);
 	log.info(""+result);

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.JejuDojang.model.BoardRepliesVO;
 import com.JejuDojang.model.BoardVO;
 import com.JejuDojang.persistence.BoardRepliesRepository;
+import com.JejuDojang.service.BoardReplyService;
 
 import lombok.extern.java.Log;
 
@@ -28,7 +29,7 @@ import lombok.extern.java.Log;
 public class BoardRepliesController {
 
 	@Autowired
-	private BoardRepliesRepository replyRepo;
+	private BoardReplyService replyService;
 	
 	
 	/*
@@ -63,7 +64,7 @@ public class BoardRepliesController {
 		
 		reply.setBoard(board);
 		
-		replyRepo.save(reply);		
+		replyService.save(reply);		
 		
 		return new ResponseEntity<>(getListByBoard(board), HttpStatus.CREATED);
 		
@@ -71,7 +72,7 @@ public class BoardRepliesController {
 	private List<BoardRepliesVO> getListByBoard(BoardVO board)throws RuntimeException{
 		
 		log.info("getListByBoard...." + board);
-		return replyRepo.getRepliesOfBoard(board);
+		return replyService.getRepliesOfBoard(board);
 		
 	}		
 	
@@ -83,7 +84,7 @@ public class BoardRepliesController {
 		
 		log.info("delete reply: "+ rno);
 		
-		replyRepo.deleteById(rno);
+		replyService.deleteById(rno);
 		
 		BoardVO board = new BoardVO();
 		board.setBno(bno);
@@ -100,11 +101,11 @@ public class BoardRepliesController {
 	
 		log.info("modify reply: "+ reply);
 		
-		replyRepo.findById(reply.getRno()).ifPresent(origin -> {
+		replyService.findById(reply.getRno()).ifPresent(origin -> {
 			
 			origin.setReply(reply.getReply());
 			
-			replyRepo.save(origin);
+			replyService.save(origin);
 		});
 		
 		BoardVO board = new BoardVO();

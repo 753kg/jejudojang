@@ -22,6 +22,7 @@ import com.JejuDojang.model.ItineraryBoard;
 import com.JejuDojang.model.ItineraryBoardRepliesVO;
 import com.JejuDojang.persistence.BoardRepliesRepository;
 import com.JejuDojang.persistence.ItineraryBoardRepliesRepository;
+import com.JejuDojang.service.ItineraryBoardReplyService;
 
 import lombok.extern.java.Log;
 
@@ -31,7 +32,7 @@ import lombok.extern.java.Log;
 public class ItineraryBoardRepliesController {
 
 	@Autowired
-	private ItineraryBoardRepliesRepository replyRepo;
+	private ItineraryBoardReplyService service;
 	
 	
 	/*
@@ -66,7 +67,7 @@ public class ItineraryBoardRepliesController {
 		
 		reply.setItineraryBoard(board);
 		
-		replyRepo.save(reply);		
+		service.save(reply);		
 		
 		return new ResponseEntity<>(getListByItineraryBoard(board), HttpStatus.CREATED);
 		
@@ -74,7 +75,7 @@ public class ItineraryBoardRepliesController {
 	private List<ItineraryBoardRepliesVO> getListByItineraryBoard(ItineraryBoard board)throws RuntimeException{
 		
 		log.info("getListByBoard...." + board);
-		return replyRepo.getRepliesOfItineraryBoard(board);
+		return service.getRepliesOfItineraryBoard(board);
 		
 	}		
 	
@@ -86,7 +87,7 @@ public class ItineraryBoardRepliesController {
 		
 		log.info("delete reply: "+ rno);
 		
-		replyRepo.deleteById(rno);
+		service.deleteById(rno);
 		
 		ItineraryBoard board = new ItineraryBoard();
 		board.setBno(bno);
@@ -103,11 +104,11 @@ public class ItineraryBoardRepliesController {
 	
 		log.info("modify reply: "+ reply);
 		
-		replyRepo.findById(reply.getRno()).ifPresent(origin -> {
+		service.findById(reply.getRno()).ifPresent(origin -> {
 			
 			origin.setReply(reply.getReply());
 			
-			replyRepo.save(origin);
+			service.save(origin);
 		});
 		
 		ItineraryBoard board = new ItineraryBoard();

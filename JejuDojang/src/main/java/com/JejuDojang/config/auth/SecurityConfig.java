@@ -22,12 +22,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 			.and()
 			.authorizeRequests()	// URL별 권한관리 설정 시작
+			.antMatchers("/", "/index").permitAll()	// 전체열람
 			.antMatchers("/login").permitAll()
-			.antMatchers("/", "/css/**", "/img/**", "/js/**").permitAll()	// 전체열람
-			//.antMatchers("/itinerary/**").permitAll()	// 전체열람
-			.antMatchers("/styleSelect/**").hasRole(MemberRole.USER.name())	// USER 권한을 가진 사람만 가능
-			.anyRequest().permitAll()
-			//.anyRequest().authenticated()	// 나머지 URL은 인증된 사용자만 허용(로그인한 사용자)
+			.antMatchers("/", "/css/**", "/images/**", "/js/**", "/webfonts/**").permitAll()
+			.antMatchers("/itinerary/**").permitAll()
+			.antMatchers("/api/**").permitAll()
+			.antMatchers("/boards/**", "/replies/**", "/boards2/**", "/replies2/**").permitAll()
+			.antMatchers("/selectedPlaces", "/retrieveMarker", "/insertPlaces/**", "/deletePlaces").permitAll()
+			.anyRequest().authenticated()	// 나머지 URL은 인증된 사용자만 허용(로그인한 사용자)
+			//.antMatchers("/styleSelect/**").hasRole(MemberRole.USER.name())	// USER 권한을 가진 사람만 가능
+			//.anyRequest().permitAll()
 			
 			.and()
             .oauth2Login().loginPage("/login")
